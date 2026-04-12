@@ -158,7 +158,8 @@ main,
 .eyebrow,
 .section-tag,
 .panel-label,
-.project-kicker {
+.project-kicker,
+.artifact-card-tag {
   text-transform: uppercase;
   letter-spacing: 0.16em;
   font-size: 0.78rem;
@@ -346,19 +347,22 @@ main,
   margin: 0;
 }
 
-.project-grid {
+.project-grid,
+.artifact-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
 }
 
-.project-card {
+.project-card,
+.artifact-card {
   padding: 26px;
   border-radius: 26px;
   transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
 }
 
-.project-card:hover {
+.project-card:hover,
+.artifact-card:hover {
   transform: translateY(-4px);
   border-color: rgba(88, 225, 203, 0.28);
   background: var(--panel-strong);
@@ -371,13 +375,15 @@ main,
   align-items: start;
 }
 
-.project-card h3 {
+.project-card h3,
+.artifact-card h3 {
   margin: 8px 0 8px;
   font-size: 1.32rem;
 }
 
 .project-card p,
-.project-card li {
+.project-card li,
+.artifact-card p {
   color: var(--muted);
 }
 
@@ -399,6 +405,46 @@ main,
   border: 1px solid rgba(88, 225, 203, 0.2);
   color: #c8fff5;
   font-size: 0.8rem;
+}
+
+.artifact-box {
+  margin-top: 22px;
+  padding: 18px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.artifact-title {
+  margin: 0 0 6px;
+  font-weight: 700;
+  color: var(--text) !important;
+}
+
+.artifact-desc {
+  margin: 0 0 14px;
+}
+
+.artifact-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.artifact-links a {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: rgba(88, 225, 203, 0.12);
+  border: 1px solid rgba(88, 225, 203, 0.2);
+  color: #d6fff7;
+  font-size: 0.92rem;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.artifact-links a:hover {
+  transform: translateY(-2px);
+  background: rgba(88, 225, 203, 0.18);
 }
 
 .strength-list {
@@ -450,6 +496,7 @@ main,
   .hero,
   .split,
   .project-grid,
+  .artifact-grid,
   .section-heading {
     grid-template-columns: 1fr;
     display: grid;
@@ -497,7 +544,8 @@ main,
 
   .content-card,
   .panel,
-  .project-card {
+  .project-card,
+  .artifact-card {
     padding: 22px;
   }
 
@@ -513,6 +561,14 @@ main,
 
   .btn {
     width: 100%;
+    text-align: center;
+  }
+
+  .artifact-links {
+    flex-direction: column;
+  }
+
+  .artifact-links a {
     text-align: center;
   }
 
