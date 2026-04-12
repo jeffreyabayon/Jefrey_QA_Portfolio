@@ -11,120 +11,158 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="bg-glow glow-1"></div>
-  <div class="bg-glow glow-2"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-blur blur-one"></div>
+  <div class="bg-blur blur-two"></div>
 
-  <header class="container hero">
-    <nav class="nav">
-      <div class="logo">JA</div>
-      <div class="nav-links">
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="#" class="brand">
+        <span class="brand-box">JA</span>
+        <span class="brand-text">Jefrey Abayon</span>
+      </a>
+
+      <nav class="nav">
         <a href="#about">About</a>
         <a href="#skills">Skills</a>
         <a href="#projects">Projects</a>
+        <a href="#strengths">Strengths</a>
         <a href="#contact">Contact</a>
-      </div>
-    </nav>
-
-    <section class="hero-content glass">
-      <div class="hero-text">
-        <span class="badge">Open to QA Opportunities</span>
-        <h1>Jefrey Abayon</h1>
-        <h2>Manual QA Engineer | API, Payroll, and End-to-End Testing</h2>
-        <p>
-          QA tester with 3 years of experience validating HR and payroll systems,
-          APIs, and business-critical workflows. I focus on finding issues early,
-          protecting release quality, and making sure complex features work as
-          expected in real-world scenarios.
-        </p>
-
-        <div class="hero-buttons">
-          <a class="btn btn-primary" href="#projects">View Projects</a>
-          <a class="btn btn-secondary" href="#contact">Contact Me</a>
-        </div>
-      </div>
-
-      <div class="hero-cards">
-        <div class="stat-card">
-          <p class="stat-label">Experience</p>
-          <h3>3 Years</h3>
-          <p>Manual QA for payroll, attendance, API, and regression testing</p>
-        </div>
-
-        <div class="stat-card">
-          <p class="stat-label">Core Strengths</p>
-          <ul>
-            <li>Business logic validation</li>
-            <li>API testing and response checks</li>
-            <li>Regression and impact analysis</li>
-          </ul>
-        </div>
-      </div>
-    </section>
+      </nav>
+    </div>
   </header>
 
   <main class="container">
-    <section id="about" class="section grid-2">
-      <div class="card glass">
-        <p class="section-tag">About Me</p>
-        <h2>Testing with structure, clarity, and real-world thinking.</h2>
-        <p>
-          I am a Manual QA Engineer with experience testing payroll, attendance,
-          overtime, and API-driven workflows. My work includes validating business
-          rules, checking data accuracy, performing regression testing, and
-          ensuring features behave correctly across connected modules.
+    <section class="hero section">
+      <div class="hero-left">
+        <span class="eyebrow">Manual QA Engineer · 3 Years Experience</span>
+        <h1>
+          I test complex systems with
+          <span>clarity, structure, and confidence.</span>
+        </h1>
+        <p class="hero-copy">
+          I specialize in manual QA for payroll, attendance, and API-driven workflows.
+          My focus is on validating business logic, reducing regression risk, and
+          helping teams release reliable features with confidence.
         </p>
-        <p>
-          I enjoy breaking complex requirements into practical test scenarios and
-          identifying risk areas before they become production issues.
-        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#projects">Explore Projects</a>
+          <a class="btn btn-secondary" href="#contact">Let’s Connect</a>
+        </div>
+
+        <div class="hero-metrics">
+          <div class="metric-card">
+            <strong>3 Years</strong>
+            <span>QA experience</span>
+          </div>
+          <div class="metric-card">
+            <strong>API + UI</strong>
+            <span>Validation focus</span>
+          </div>
+          <div class="metric-card">
+            <strong>Payroll / HR</strong>
+            <span>Domain expertise</span>
+          </div>
+        </div>
       </div>
 
-      <div id="skills" class="card glass">
-        <p class="section-tag">Skills & Tools</p>
-        <h2>What I work with</h2>
+      <div class="hero-right">
+        <div class="panel glass">
+          <p class="panel-label">Snapshot</p>
+          <h2>What I bring to a QA team</h2>
+          <ul class="feature-list">
+            <li>Strong coverage of positive, negative, and edge-case scenarios</li>
+            <li>Clear API validation using Postman, Swagger, and SQL checks</li>
+            <li>Practical regression analysis across connected modules</li>
+            <li>Accurate defect reporting with business impact in mind</li>
+          </ul>
+        </div>
 
-        <div class="chips">
-          <span>Manual Testing</span>
-          <span>Functional Testing</span>
-          <span>Regression Testing</span>
-          <span>API Testing</span>
-          <span>End-to-End Testing</span>
-          <span>SQL Validation</span>
-          <span>Payroll Systems</span>
-          <span>Attendance Systems</span>
-          <span>Postman</span>
-          <span>Swagger</span>
-          <span>JIRA</span>
-          <span>JMeter</span>
-          <span>BDD / Gherkin</span>
-          <span>Agile / Scrum</span>
-          <span>UAT Support</span>
+        <div class="panel glass mini-panel">
+          <p class="panel-label">Current Focus</p>
+          <p>
+            Manual QA roles involving API testing, system validation,
+            regression testing, and business-critical workflows.
+          </p>
         </div>
       </div>
     </section>
 
-    <section id="projects" class="section card glass">
-      <div class="section-head">
+    <section id="about" class="section split">
+      <div class="content-card glass">
+        <p class="section-tag">About Me</p>
+        <h2>Testing beyond the happy path.</h2>
+        <p>
+          I am a QA tester with 3 years of experience working on HR and payroll systems.
+          My day-to-day work includes validating API responses, checking business rules,
+          creating structured test coverage, and making sure changes do not introduce
+          unexpected issues in related modules.
+        </p>
+        <p>
+          I enjoy turning complex requirements into practical test scenarios and helping
+          teams catch issues early before they affect production users.
+        </p>
+      </div>
+
+      <div id="skills" class="content-card glass">
+        <p class="section-tag">Skills & Tools</p>
+        <h2>Tools and areas I work with</h2>
+
+        <div class="skill-group">
+          <h3>Testing</h3>
+          <div class="chips">
+            <span>Manual Testing</span>
+            <span>Functional Testing</span>
+            <span>Regression Testing</span>
+            <span>API Testing</span>
+            <span>End-to-End Testing</span>
+            <span>UAT Support</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <h3>Tools</h3>
+          <div class="chips">
+            <span>Postman</span>
+            <span>Swagger</span>
+            <span>JIRA</span>
+            <span>JMeter</span>
+            <span>SQL</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <h3>Workflow</h3>
+          <div class="chips">
+            <span>Agile / Scrum</span>
+            <span>BDD / Gherkin</span>
+            <span>Bug Reporting</span>
+            <span>Test Design</span>
+            <span>Risk Analysis</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <div class="section-heading">
         <div>
           <p class="section-tag">Selected Work</p>
           <h2>Projects that reflect my QA approach</h2>
         </div>
-        <p class="section-note">
-          These projects show how I validate workflows, inspect API behavior,
-          and protect quality through structured testing and regression coverage.
+        <p class="section-intro">
+          These projects highlight how I validate APIs, analyze workflow impact,
+          and protect system quality through structured testing.
         </p>
       </div>
 
-      <div class="project-list">
-        <article class="project-card">
-          <div class="project-top">
+      <div class="project-grid">
+        <article class="project-card glass">
+          <div class="project-header">
             <div>
+              <p class="project-kicker">Project 01</p>
               <h3>Payroll API – Unpost Payroll Feature</h3>
-              <p>
-                Validated the payroll unposting flow to ensure finalized payroll
-                entries could safely return to an editable state without causing
-                data issues in related records.
-              </p>
             </div>
             <div class="stack">
               <span>Postman</span>
@@ -132,22 +170,22 @@
               <span>JIRA</span>
             </div>
           </div>
+          <p>
+            Validated the payroll unposting flow to ensure finalized payroll entries
+            could safely return to an editable state without affecting downstream data.
+          </p>
           <ul>
             <li>Covered positive, negative, and edge-case scenarios</li>
             <li>Verified status rollback and business rule enforcement</li>
-            <li>Checked downstream impact on payslips and payroll records</li>
+            <li>Checked impact on payslips, payroll tables, and related records</li>
           </ul>
         </article>
 
-        <article class="project-card">
-          <div class="project-top">
+        <article class="project-card glass">
+          <div class="project-header">
             <div>
+              <p class="project-kicker">Project 02</p>
               <h3>Attendance Engine – Schedule Adjustment Integration</h3>
-              <p>
-                Tested schedule adjustment behavior to confirm approved changes
-                appeared correctly in attendance reports and did not affect
-                unrelated endpoints.
-              </p>
             </div>
             <div class="stack">
               <span>Postman</span>
@@ -155,22 +193,22 @@
               <span>JIRA</span>
             </div>
           </div>
+          <p>
+            Tested approved schedule adjustments to confirm they appeared correctly
+            in attendance reports and did not affect unrelated endpoints.
+          </p>
           <ul>
             <li>Validated single and batch attendance results</li>
-            <li>Confirmed updated schedule labels and accurate report output</li>
+            <li>Confirmed updated schedule labels and report output</li>
             <li>Performed regression checks on non-impacted APIs</li>
           </ul>
         </article>
 
-        <article class="project-card">
-          <div class="project-top">
+        <article class="project-card glass">
+          <div class="project-header">
             <div>
+              <p class="project-kicker">Project 03</p>
               <h3>Overtime API – Feature Flag Validation</h3>
-              <p>
-                Verified response payload changes under feature flag conditions,
-                including field behavior across different overtime classifications
-                and statuses.
-              </p>
             </div>
             <div class="stack">
               <span>Swagger</span>
@@ -178,27 +216,32 @@
               <span>JIRA</span>
             </div>
           </div>
+          <p>
+            Verified response payload changes under feature flag conditions, including
+            field behavior across different overtime classifications and statuses.
+          </p>
           <ul>
             <li>Tested conditional fields such as shiftId and shiftAssignmentId</li>
             <li>Covered Approved, Rejected, Cancelled, and related states</li>
-            <li>Ensured backward compatibility for unaffected scenarios</li>
+            <li>Ensured backward compatibility for unaffected cases</li>
           </ul>
         </article>
 
-        <article class="project-card">
-          <div class="project-top">
+        <article class="project-card glass">
+          <div class="project-header">
             <div>
+              <p class="project-kicker">Project 04</p>
               <h3>Reports API – Account ID Logic Update</h3>
-              <p>
-                Tested API behavior after logic changes to support nullable
-                accountId values while maintaining expected report processing.
-              </p>
             </div>
             <div class="stack">
               <span>Postman</span>
               <span>JIRA</span>
             </div>
           </div>
+          <p>
+            Tested support for nullable accountId values while preserving expected
+            report behavior and legacy compatibility.
+          </p>
           <ul>
             <li>Validated null and non-null accountId scenarios</li>
             <li>Checked backward compatibility and error handling</li>
@@ -208,54 +251,57 @@
       </div>
     </section>
 
-    <section class="section grid-2">
-      <div class="card glass">
-        <p class="section-tag">What I Bring</p>
-        <h2>Why my QA work adds value</h2>
-        <div class="value-list">
-          <div>
+    <section id="strengths" class="section split">
+      <div class="content-card glass">
+        <p class="section-tag">Strengths</p>
+        <h2>How I add value in QA</h2>
+        <div class="strength-list">
+          <div class="strength-item">
             <h3>Structured test design</h3>
             <p>
-              I build test scenarios around workflows, risks, edge cases, and
-              business rules rather than testing only the happy path.
+              I build test coverage around workflows, dependencies, business rules,
+              and real user scenarios instead of only validating the happy path.
             </p>
           </div>
-          <div>
-            <h3>API confidence</h3>
+          <div class="strength-item">
+            <h3>Business logic awareness</h3>
             <p>
-              I validate endpoints, status codes, response payloads, and data
-              accuracy using practical and repeatable checks.
+              I pay close attention to how rules, computations, and edge cases affect
+              system behavior, especially in payroll and attendance features.
             </p>
           </div>
-          <div>
+          <div class="strength-item">
             <h3>Clear communication</h3>
             <p>
-              I document issues clearly so developers, product teams, and
-              stakeholders can take action quickly.
+              I document findings clearly so developers and stakeholders can quickly
+              understand the issue, reproduce it, and act on it.
             </p>
           </div>
         </div>
       </div>
 
-      <div id="contact" class="card glass contact-card">
+      <div id="contact" class="content-card glass contact-card">
         <p class="section-tag">Contact</p>
         <h2>Let’s connect</h2>
         <p>
           I’m open to QA opportunities involving manual testing, API validation,
-          regression, and business-critical systems.
+          regression testing, and business-critical systems.
         </p>
 
         <div class="contact-list">
-          <p><strong>Email:</strong> your.email@example.com</p>
-          <p><strong>LinkedIn:</strong> linkedin.com/in/your-linkedin</p>
-          <p><strong>Location:</strong> Philippines</p>
+          <p><strong>Email</strong><br />your.email@example.com</p>
+          <p><strong>LinkedIn</strong><br />linkedin.com/in/your-linkedin</p>
+          <p><strong>Location</strong><br />Philippines</p>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="container footer">
-    <p>© 2026 Jefrey Abayon. Built for GitHub Pages.</p>
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p>© 2026 Jefrey Abayon</p>
+      <p>Built for GitHub Pages</p>
+    </div>
   </footer>
 </body>
 </html>
