@@ -915,3 +915,29 @@ h1, h2, h3, p, a, span {
     gap: 10px;
   }
 }
+
+.cert-box {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.cert-title {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #a9f3e7;
+  margin-bottom: 6px;
+}
+
+.cert-name {
+  margin: 0 0 8px;
+  font-weight: 600;
+}
+
+.cert-box a {
+  color: #58e1cb;
+  font-size: 0.9rem;
+}
