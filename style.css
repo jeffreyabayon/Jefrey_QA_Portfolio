@@ -697,3 +697,221 @@ main,
 .nav a:hover::after {
   width: 100%;
 }
+
+/* =========================
+   Better responsive behavior
+========================= */
+
+/* Make images and embedded content safe by default */
+img,
+video,
+iframe {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Prevent long text from overflowing */
+h1, h2, h3, p, a, span {
+  overflow-wrap: anywhere;
+}
+
+/* Better flexible buttons */
+.hero-actions,
+.artifact-links {
+  align-items: stretch;
+}
+
+.hero-actions .btn,
+.artifact-links a {
+  min-width: 0;
+}
+
+/* Improve chip wrapping */
+.chips,
+.stack {
+  row-gap: 10px;
+}
+
+/* Large tablets / small laptops */
+@media (max-width: 1024px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .split {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .project-grid,
+  .artifact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-heading {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .section-intro {
+    max-width: 100%;
+  }
+
+  .project-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .stack {
+    justify-content: flex-start;
+    min-width: 0;
+  }
+
+  .hero-metrics {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Phones */
+@media (max-width: 720px) {
+  .container {
+    width: min(var(--max-width), calc(100% - 24px));
+  }
+
+  .site-header {
+    position: static;
+  }
+
+  .nav-wrap {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 0;
+  }
+
+  .nav {
+    width: 100%;
+    gap: 12px;
+  }
+
+  .nav a {
+    font-size: 0.92rem;
+  }
+
+  .section {
+    padding: 32px 0;
+  }
+
+  .hero {
+    padding-top: 10px;
+    gap: 18px;
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 9vw, 2.6rem);
+    line-height: 1.08;
+  }
+
+  .hero-copy {
+    font-size: 0.98rem;
+  }
+
+  .content-card,
+  .panel,
+  .project-card,
+  .artifact-card {
+    padding: 20px;
+    border-radius: 22px;
+  }
+
+  .content-card h2,
+  .section-heading h2,
+  .panel h2 {
+    font-size: 1.5rem;
+    line-height: 1.2;
+  }
+
+  .project-card h3,
+  .artifact-card h3 {
+    font-size: 1.15rem;
+  }
+
+  .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+  }
+
+  .metric-card {
+    padding: 16px;
+  }
+
+  .chips span,
+  .stack span {
+    font-size: 0.85rem;
+    padding: 9px 12px;
+  }
+
+  .artifact-links {
+    flex-direction: column;
+  }
+
+  .artifact-links a {
+    width: 100%;
+    text-align: center;
+  }
+
+  .contact-list p {
+    word-break: break-word;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 480px) {
+  .container {
+    width: calc(100% - 20px);
+  }
+
+  .brand-text {
+    font-size: 0.95rem;
+  }
+
+  .brand-box {
+    width: 38px;
+    height: 38px;
+  }
+
+  .hero h1 {
+    font-size: clamp(1.8rem, 10vw, 2.2rem);
+  }
+
+  .section-tag,
+  .panel-label,
+  .project-kicker,
+  .artifact-card-tag,
+  .eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+  }
+
+  .content-card,
+  .panel,
+  .project-card,
+  .artifact-card {
+    padding: 18px;
+  }
+
+  .chips {
+    gap: 10px;
+  }
+}
