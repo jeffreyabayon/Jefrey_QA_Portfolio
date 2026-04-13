@@ -9,6 +9,8 @@
     content="Portfolio of Jefrey Abayon, Manual QA Engineer with 3 years of experience in API, payroll, attendance, and end-to-end system testing."
   />
   <link rel="stylesheet" href="style.css" />
+
+
 </head>
 <body>
   <div class="bg-grid"></div>
@@ -427,5 +429,21 @@
       <p>Focused on quality, clarity, and real-world testing.</p>
     </div>
   </footer>
+  <script>
+  const revealEls = document.querySelectorAll(
+    '.section, .project-card, .content-card, .artifact-card'
+  );
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show');
+        observer.unobserve(entry.target); // animate once only
+      }
+    });
+  }, { threshold: 0.1 });
+
+  revealEls.forEach(el => observer.observe(el));
+</script>
 </body>
 </html>

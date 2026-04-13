@@ -941,3 +941,21 @@ h1, h2, h3, p, a, span {
   color: #58e1cb;
   font-size: 0.9rem;
 }
+
+/* Scroll reveal — initial hidden state */
+.section,
+.project-card,
+.content-card,
+.artifact-card {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.section.show,
+.project-card.show,
+.content-card.show,
+.artifact-card.show {
+  opacity: 1;
+  transform: translateY(0);
+}
