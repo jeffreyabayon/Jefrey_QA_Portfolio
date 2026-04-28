@@ -4,76 +4,636 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jefrey Abayon | QA Engineer Portfolio</title>
-  <meta
-    name="description"
-    content="Portfolio of Jefrey Abayon, Manual QA Engineer with 3 years of experience in API, payroll, attendance, and end-to-end system testing."
-  />
-  <link rel="stylesheet" href="style.css" />
+  <meta name="description" content="Portfolio of Jefrey Abayon, Manual QA Engineer with 3 years of experience in API, payroll, attendance, and end-to-end system testing." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
+  <style>
+    /* ─── TOKENS ─── */
+    :root {
+      --bg: #06101c;
+      --navy: #091523;
+      --navy-mid: #0d1c2e;
+      --panel: rgba(255,255,255,0.055);
+      --panel-hover: rgba(255,255,255,0.085);
+      --border: rgba(255,255,255,0.09);
+      --border-accent: rgba(88,225,203,0.28);
+      --text: #e8f2fd;
+      --muted: #7a9ab8;
+      --accent: #58e1cb;
+      --accent-dim: rgba(88,225,203,0.14);
+      --accent-2: #7ea7ff;
+      --accent-2-dim: rgba(126,167,255,0.12);
+      --shadow: 0 20px 60px rgba(0,0,0,0.35);
+      --transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
 
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── CURSOR ─── */
+    .cursor {
+      position: fixed; width: 9px; height: 9px;
+      background: var(--accent); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: width 0.3s, height 0.3s, opacity 0.3s;
+    }
+    .cursor-ring {
+      position: fixed; width: 34px; height: 34px;
+      border: 1.5px solid var(--accent); border-radius: 50%;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%,-50%);
+      opacity: 0.4;
+      transition: width 0.3s, height 0.3s;
+    }
+
+    /* ─── BG LAYERS ─── */
+    .bg-grid {
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(88,225,203,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(88,225,203,0.025) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none; z-index: 0;
+    }
+    .bg-orb {
+      position: fixed; border-radius: 50%;
+      filter: blur(100px); pointer-events: none; z-index: 0; opacity: 0.15;
+    }
+    .orb-1 { width: 500px; height: 500px; top: -150px; left: -150px; background: var(--accent); }
+    .orb-2 { width: 400px; height: 400px; top: 100px; right: -120px; background: var(--accent-2); }
+
+    /* ─── LAYOUT ─── */
+    .container { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
+    section, header, footer, main { position: relative; z-index: 1; }
+
+    /* ─── NAV ─── */
+    .site-header {
+      position: sticky; top: 0;
+      background: rgba(6,16,28,0.75);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      z-index: 100;
+    }
+    .nav-wrap {
+      min-height: 72px; display: flex;
+      align-items: center; justify-content: space-between; gap: 20px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; }
+    .brand-box {
+      width: 40px; height: 40px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent-dim), var(--accent-2-dim));
+      border: 1px solid var(--border-accent);
+      display: grid; place-items: center;
+      font-family: Inter, Arial, Helvetica, sans-serif; font-size: 0.82rem;
+      font-weight: 800; color: var(--accent);
+    }
+    .brand-name { font-family: Inter, Arial, Helvetica, sans-serif; font-size: 0.95rem; font-weight: 700; }
+    .nav { display: flex; gap: 24px; }
+    .nav a {
+      font-size: 0.85rem; color: var(--muted); font-weight: 500;
+      position: relative; transition: color 0.25s;
+    }
+    .nav a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 1.5px; background: var(--accent);
+      transition: width 0.3s ease;
+    }
+    .nav a:hover { color: var(--text); }
+    .nav a:hover::after { width: 100%; }
+
+    /* ─── HERO ─── */
+    #hero {
+      position: relative; min-height: 100vh;
+      display: flex; align-items: center;
+      overflow: hidden; padding: 5rem 0 4rem;
+    }
+    .hero-particles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+    .particle {
+      position: absolute; border-radius: 50%;
+      background: var(--accent); opacity: 0;
+      animation: float-p linear infinite;
+    }
+    @keyframes float-p {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      8%   { opacity: 0.55; }
+      92%  { opacity: 0.2; }
+      100% { transform: translateY(-8vh) translateX(20px); opacity: 0; }
+    }
+
+    /* Geometric decoration */
+    .hero-geo {
+      position: absolute; right: -60px; top: 50%;
+      transform: translateY(-50%);
+      width: 480px; height: 480px;
+      pointer-events: none;
+    }
+    .hero-geo svg { width: 100%; height: 100%; }
+
+    .hero-inner {
+      display: grid; grid-template-columns: 1.15fr 0.85fr;
+      gap: 3rem; align-items: center; width: 100%;
+    }
+
+    /* Load-in animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 0.7rem;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 1.4rem;
+      opacity: 0; animation: fadeUp 0.7s 0.2s forwards;
+    }
+    .hero-tag::before {
+      content: ''; display: block; width: 28px; height: 1.5px;
+      background: var(--accent);
+    }
+    .hero-h1 {
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      line-height: 1.04; font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 1.4rem;
+      opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
+    }
+    .hero-h1 em {
+      font-style: normal;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-copy {
+      font-size: 1rem; font-weight: 300; line-height: 1.8;
+      color: var(--muted); max-width: 520px;
+      margin-bottom: 2.2rem;
+      opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
+    }
+    .hero-actions {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      margin-bottom: 3rem;
+      opacity: 0; animation: fadeUp 0.8s 0.8s forwards;
+    }
+    .btn {
+      padding: 0.85rem 1.8rem; border-radius: 10px;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      font-size: 0.85rem; font-weight: 600; cursor: pointer;
+      border: none; transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
+    }
+    .btn:hover { transform: translateY(-3px); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #7bf0dc);
+      color: #052220;
+      box-shadow: 0 8px 24px rgba(88,225,203,0.22);
+    }
+    .btn-primary:hover { box-shadow: 0 12px 32px rgba(88,225,203,0.35); }
+    .btn-secondary {
+      background: var(--panel); border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .btn-secondary:hover { background: var(--panel-hover); border-color: var(--border-accent); }
+
+    .hero-metrics {
+      display: flex; gap: 1.5rem; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.8s 1s forwards;
+    }
+    .metric {
+      padding: 1rem 1.4rem; border-radius: 14px;
+      background: var(--panel); border: 1px solid var(--border);
+      flex: 1; min-width: 120px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .metric:hover { border-color: var(--border-accent); transform: translateY(-3px); }
+    .metric strong {
+      display: block; font-family: Inter, Arial, Helvetica, sans-serif;
+      font-size: 1rem; font-weight: 700; color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+    .metric span { font-size: 0.78rem; color: var(--muted); }
+
+    /* Hero right panels */
+    .hero-right {
+      display: grid; gap: 1.2rem;
+      opacity: 0; animation: fadeUp 0.9s 0.6s forwards;
+    }
+    .glass-panel {
+      background: var(--panel); border: 1px solid var(--border);
+      backdrop-filter: blur(16px); border-radius: 20px;
+      padding: 1.8rem;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .glass-panel:hover { border-color: var(--border-accent); transform: translateY(-3px); }
+    .panel-tag {
+      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 0.8rem; display: block;
+    }
+    .glass-panel h3 {
+      font-family: Inter, Arial, Helvetica, sans-serif; font-size: 1.15rem;
+      font-weight: 700; color: var(--text); margin-bottom: 0.8rem;
+    }
+    .feature-list { padding-left: 1.2rem; }
+    .feature-list li {
+      font-size: 0.88rem; color: var(--muted); margin-bottom: 0.5rem;
+      line-height: 1.6;
+    }
+    .glass-panel p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+
+    /* ─── SECTION COMMON ─── */
+    .sec { padding: 6rem 0; }
+    .sec-label {
+      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--accent);
+      display: flex; align-items: center; gap: 0.8rem;
+      margin-bottom: 0.8rem;
+    }
+    .sec-label::before { content: ''; width: 22px; height: 1.5px; background: var(--accent); }
+    .sec-h2 {
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+      font-weight: 800; line-height: 1.1;
+      letter-spacing: -0.025em; color: var(--text);
+    }
+    .sec-h2 em { font-style: normal; color: var(--accent); }
+    .sec-p { font-size: 0.95rem; color: var(--muted); line-height: 1.8; max-width: 520px; }
+
+    /* ─── ABOUT ─── */
+    #about { background: var(--navy-mid); }
+    .about-grid {
+      display: grid; grid-template-columns: 1.1fr 0.9fr;
+      gap: 3rem; align-items: start;
+    }
+    .about-card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 24px; padding: 2.5rem;
+      transition: border-color 0.3s;
+    }
+    .about-card:hover { border-color: var(--border-accent); }
+    .about-card p {
+      font-size: 0.92rem; color: var(--muted); line-height: 1.8;
+      margin-top: 1rem;
+    }
+    .cert-box {
+      margin-top: 1.8rem; padding: 1.2rem 1.4rem;
+      background: rgba(88,225,203,0.06);
+      border: 1px solid rgba(88,225,203,0.18);
+      border-radius: 14px;
+    }
+    .cert-label {
+      font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent); font-weight: 600; margin-bottom: 0.4rem;
+    }
+    .cert-name {
+      font-size: 0.88rem; font-weight: 600; color: var(--text); margin-bottom: 0.5rem;
+    }
+    .cert-box a {
+      font-size: 0.82rem; color: var(--accent);
+      transition: opacity 0.2s;
+    }
+    .cert-box a:hover { opacity: 0.7; }
+
+    /* Skills card */
+    .skills-card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 24px; padding: 2.5rem;
+    }
+    .skill-group { margin-bottom: 1.8rem; }
+    .skill-group:last-child { margin-bottom: 0; }
+    .skill-group h4 {
+      font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--muted); font-weight: 600; margin-bottom: 0.8rem;
+    }
+    .chips { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .chip {
+      padding: 0.45rem 0.9rem; border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 0.8rem; color: var(--text);
+      transition: border-color 0.25s, background 0.25s;
+    }
+    .chip:hover {
+      border-color: rgba(88,225,203,0.35);
+      background: var(--accent-dim);
+      color: #c8fff5;
+    }
+
+    /* ─── PROJECTS ─── */
+    #projects { padding: 6rem 0; }
+    .projects-header {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 2rem; align-items: end; margin-bottom: 3rem;
+    }
+    .project-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 22px; padding: 2rem;
+      transition: border-color 0.3s, transform 0.4s var(--transition), background 0.3s;
+    }
+    .project-card:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-5px);
+      background: var(--panel-hover);
+    }
+    .proj-kicker {
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--accent); font-weight: 600; margin-bottom: 0.5rem;
+    }
+    .project-card h3 {
+      font-family: Inter, Arial, Helvetica, sans-serif; font-size: 1.15rem;
+      font-weight: 700; color: var(--text); margin-bottom: 0.8rem;
+    }
+    .project-card > p {
+      font-size: 0.88rem; color: var(--muted); line-height: 1.75;
+      margin-bottom: 0.8rem;
+    }
+    .proj-list {
+      padding-left: 1.1rem; margin-bottom: 1.2rem;
+    }
+    .proj-list li {
+      font-size: 0.85rem; color: var(--muted); margin-bottom: 0.4rem; line-height: 1.6;
+    }
+    .proj-stack { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.4rem; }
+    .stack-tag {
+      padding: 0.3rem 0.75rem; border-radius: 999px;
+      background: var(--accent-dim); border: 1px solid rgba(88,225,203,0.22);
+      font-size: 0.75rem; color: #c8fff5;
+    }
+    .artifact-box {
+      margin-top: 1rem; padding: 1.1rem 1.2rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+    }
+    .artifact-box-title {
+      font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); font-weight: 600; margin-bottom: 0.8rem;
+    }
+    .artifact-links { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .art-link {
+      display: inline-block; padding: 0.45rem 1rem;
+      background: var(--accent-dim); border: 1px solid rgba(88,225,203,0.2);
+      border-radius: 8px; font-size: 0.8rem; color: #c8fff5;
+      transition: background 0.25s, transform 0.2s;
+    }
+    .art-link:hover { background: rgba(88,225,203,0.22); transform: translateY(-2px); }
+
+    /* ─── ARTIFACTS ─── */
+    #artifacts { background: var(--navy-mid); padding: 6rem 0; }
+    .artifacts-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      gap: 2rem; margin-bottom: 3rem;
+    }
+    .artifact-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;
+    }
+    .artifact-card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 22px; padding: 2rem;
+      transition: border-color 0.3s, transform 0.4s var(--transition), background 0.3s;
+    }
+    .artifact-card:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-5px);
+      background: var(--panel-hover);
+    }
+    .art-tag {
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--accent); font-weight: 600; margin-bottom: 0.5rem;
+    }
+    .artifact-card h3 {
+      font-family: Inter, Arial, Helvetica, sans-serif; font-size: 1.1rem;
+      font-weight: 700; color: var(--text); margin-bottom: 0.7rem;
+    }
+    .artifact-card p {
+      font-size: 0.87rem; color: var(--muted); line-height: 1.75;
+      margin-bottom: 1.2rem;
+    }
+
+    /* ─── STRENGTHS + CONTACT ─── */
+    #strengths { padding: 6rem 0; }
+    .sc-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+    }
+    .strengths-card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 24px; padding: 2.5rem;
+    }
+    .strength-item {
+      padding: 1.2rem 1.4rem; border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      margin-bottom: 1rem;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .strength-item:last-child { margin-bottom: 0; }
+    .strength-item:hover {
+      border-color: rgba(88,225,203,0.2);
+      background: rgba(88,225,203,0.04);
+    }
+    .strength-item h4 {
+      font-family: Inter, Arial, Helvetica, sans-serif; font-size: 0.98rem;
+      font-weight: 700; color: var(--text); margin-bottom: 0.4rem;
+    }
+    .strength-item p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+
+    .contact-card {
+      background: linear-gradient(135deg, rgba(88,225,203,0.1), rgba(126,167,255,0.06)), var(--panel);
+      border: 1px solid rgba(88,225,203,0.2);
+      border-radius: 24px; padding: 2.5rem;
+    }
+    .contact-list { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+    .contact-item { display: flex; flex-direction: column; gap: 0.15rem; }
+    .contact-item strong {
+      font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--accent); font-weight: 600;
+    }
+    .contact-item a, .contact-item span {
+      font-size: 0.88rem; color: var(--text); word-break: break-all;
+      transition: color 0.2s;
+    }
+    .contact-item a:hover { color: var(--accent); }
+    .contact-card > p { font-size: 0.9rem; color: var(--muted); line-height: 1.75; margin-top: 0.8rem; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 2rem 0;
+    }
+    .footer-inner {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 1rem; flex-wrap: wrap;
+    }
+    .footer-inner p { font-size: 0.82rem; color: var(--muted); }
+    .footer-inner span { color: var(--accent); }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      opacity: 0; transform: translateY(35px);
+      transition: opacity 0.85s var(--transition), transform 0.85s var(--transition);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left {
+      opacity: 0; transform: translateX(-40px);
+      transition: opacity 0.9s var(--transition), transform 0.9s var(--transition);
+    }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right {
+      opacity: 0; transform: translateX(40px);
+      transition: opacity 0.9s var(--transition), transform 0.9s var(--transition);
+    }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+    /* ─── SCROLL INDICATOR ─── */
+    .hero-scroll {
+      position: absolute; bottom: 2rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+      opacity: 0; animation: fadeIn 1s 1.4s forwards;
+      color: var(--muted);
+    }
+    .hero-scroll span { font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; }
+    .scroll-bar {
+      width: 1px; height: 42px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+      animation: scroll-pulse 2s ease-in-out infinite;
+    }
+    @keyframes scroll-pulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      .hero-inner, .about-grid, .sc-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .projects-header { grid-template-columns: 1fr; }
+      .project-grid, .artifact-grid { grid-template-columns: 1fr; }
+      .hero-geo { display: none; }
+    }
+    @media (max-width: 720px) {
+      .nav { gap: 14px; }
+      .nav a { font-size: 0.8rem; }
+      .hero-actions { flex-direction: column; }
+      .hero-actions .btn { width: 100%; text-align: center; }
+      .hero-metrics { flex-direction: column; }
+      .artifacts-header { flex-direction: column; align-items: flex-start; }
+      .footer-inner { flex-direction: column; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      .hero-h1 { font-size: 2.2rem; }
+    }
+  </style>
 </head>
 <body>
-  <div class="bg-grid"></div>
-  <div class="bg-blur blur-one"></div>
-  <div class="bg-blur blur-two"></div>
 
-  <header class="site-header">
-    <div class="container nav-wrap">
-      <a href="#" class="brand">
-        <span class="brand-box">JA</span>
-        <span class="brand-text">Jefrey Abayon</span>
-      </a>
+<!-- Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
 
-      <nav class="nav">
-        <a href="#about">About</a>
-        <a href="#skills">Skills</a>
-        <a href="#projects">Projects</a>
-        <a href="#artifacts">Artifacts</a>
-        <a href="#strengths">Strengths</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </div>
-  </header>
+<!-- BG -->
+<div class="bg-grid"></div>
+<div class="bg-orb orb-1"></div>
+<div class="bg-orb orb-2"></div>
 
-  <main class="container">
-    <section class="hero section">
+<!-- ─── NAVIGATION ─── -->
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a href="#" class="brand">
+      <div class="brand-box">JA</div>
+      <span class="brand-name">Jefrey Abayon</span>
+    </a>
+    <nav class="nav">
+      <a href="#about">About</a>
+      <a href="#about">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#artifacts">Artifacts</a>
+      <a href="#strengths">Strengths</a>
+      <a href="#strengths">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+  <div class="hero-particles" id="particles"></div>
+
+  <!-- Geometric decoration -->
+  <div class="hero-geo">
+    <svg viewBox="0 0 480 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="240" cy="240" r="220" stroke="rgba(88,225,203,0.07)" stroke-width="1"/>
+      <circle cx="240" cy="240" r="170" stroke="rgba(88,225,203,0.06)" stroke-width="1"/>
+      <circle cx="240" cy="240" r="120" stroke="rgba(88,225,203,0.08)" stroke-width="1"/>
+      <circle cx="240" cy="240" r="70" stroke="rgba(88,225,203,0.05)" stroke-width="1" stroke-dasharray="4 6"/>
+      <line x1="20" y1="240" x2="460" y2="240" stroke="rgba(88,225,203,0.05)" stroke-width="1"/>
+      <line x1="240" y1="20" x2="240" y2="460" stroke="rgba(88,225,203,0.05)" stroke-width="1"/>
+      <line x1="84" y1="84" x2="396" y2="396" stroke="rgba(88,225,203,0.04)" stroke-width="1"/>
+      <line x1="396" y1="84" x2="84" y2="396" stroke="rgba(88,225,203,0.04)" stroke-width="1"/>
+      <circle cx="240" cy="240" r="6" fill="rgba(88,225,203,0.25)"/>
+      <circle cx="240" cy="70" r="3" fill="rgba(88,225,203,0.2)"/>
+      <circle cx="410" cy="240" r="3" fill="rgba(126,167,255,0.2)"/>
+      <circle cx="240" cy="410" r="3" fill="rgba(88,225,203,0.2)"/>
+      <circle cx="70" cy="240" r="3" fill="rgba(126,167,255,0.2)"/>
+    </svg>
+  </div>
+
+  <div class="container">
+    <div class="hero-inner">
       <div class="hero-left">
-        <span class="eyebrow">Manual QA Engineer · 3 Years Experience</span>
-        <h1>
+        <div class="hero-tag">Manual QA Engineer · 3 Years Experience</div>
+        <h2 class="hero-h2">
           I test complex systems with
-          <span>clarity, structure, and confidence.</span>
+          <em>clarity, structure,<br>and confidence.</em>
         </h1>
         <p class="hero-copy">
-          I specialize in manual QA for payroll, workforce management, and API-driven systems. 
-          My focus is on validating complex business logic, reducing regression risks, 
-          and ensuring teams deliver stable, high-quality features with confidence.
+          I specialize in manual QA for payroll, workforce management, and API-driven systems.
+          My focus is validating complex business logic, reducing regression risks,
+          and ensuring teams ship stable, high-quality features with confidence.
         </p>
-
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#projects">Explore Projects</a>
-          <a class="btn btn-secondary" href="#contact">Let’s Connect</a>
+          <a href="#projects" class="btn btn-primary">Explore Projects</a>
+          <a href="#strengths" class="btn btn-secondary">Let's Connect</a>
         </div>
-
         <div class="hero-metrics">
-          <div class="metric-card">
+          <div class="metric">
             <strong>3 Years</strong>
-            <span>QA experience</span>
+            <span>QA Experience</span>
           </div>
-          <div class="metric-card">
+          <div class="metric">
             <strong>API + UI</strong>
-            <span>Validation focus</span>
+            <span>Validation Focus</span>
           </div>
-          <div class="metric-card">
+          <div class="metric">
             <strong>Payroll / HR</strong>
-            <span>Domain expertise</span>
+            <span>Domain Expertise</span>
           </div>
         </div>
       </div>
 
       <div class="hero-right">
-        <div class="panel glass">
-          <p class="panel-label">Snapshot</p>
-          <h2>What I bring to a QA team</h2>
+        <div class="glass-panel">
+          <span class="panel-tag">Snapshot</span>
+          <h3>What I bring to a QA team</h3>
           <ul class="feature-list">
             <li>Strong coverage of positive, negative, and edge-case scenarios</li>
             <li>Clear API validation using Postman, Swagger, and SQL checks</li>
@@ -81,369 +641,298 @@
             <li>Accurate defect reporting with business impact in mind</li>
           </ul>
         </div>
-
-        <div class="panel glass mini-panel">
-          <p class="panel-label">Current Focus</p>
-          <p>
-            Manual QA roles involving API testing, system validation,
-            regression testing, and business-critical workflows.
-          </p>
+        <div class="glass-panel">
+          <span class="panel-tag">Current Focus</span>
+          <p>Manual QA roles involving API testing, system validation, regression testing, and business-critical workflows.</p>
         </div>
       </div>
-    </section>
-
-    <section id="about" class="section split">
-      <div class="content-card glass">
-        <p class="section-tag">About Me</p>
-        <h2>Testing beyond the happy path.</h2>
-        <p>
-          I am a QA tester with 3 years of experience working on HR and payroll systems.
-          My day-to-day work includes validating API responses, checking business rules,
-          creating structured test coverage, and making sure changes do not introduce
-          unexpected issues in related modules.
-        </p>
-        <p>
-          I enjoy turning complex requirements into practical test scenarios and helping
-          teams catch issues early before they affect production users.
-        </p>
-      <a href="jefrey-abayon-cv-2026.pdf" download class="btn btn-primary" style="margin-top: 20px; display: inline-block;">
-  Download Resume
-      </a>
-        <div class="cert-box">
-  <p class="cert-title">Certifications</p>
-  <p class="cert-name">ISTQB Certified Tester – Foundation Level (CTFL)</p>
-  <a href="ctfl-certificate.jpg" target="_blank">View Certificate</a>
-        </div>
-      </div>
-
-      <div id="skills" class="content-card glass">
-        <p class="section-tag">Skills & Tools</p>
-        <h2>Tools and areas I work with</h2>
-
-        <div class="skill-group">
-          <h3>Testing</h3>
-          <div class="chips">
-            <span>Manual Testing</span>
-            <span>Functional Testing</span>
-            <span>Regression Testing</span>
-            <span>API Testing</span>
-            <span>End-to-End Testing</span>
-            <span>UAT Support</span>
-          </div>
-        </div>
-
-        <div class="skill-group">
-          <h3>Tools</h3>
-          <div class="chips">
-            <span>Postman</span>
-            <span>Swagger</span>
-            <span>JIRA</span>
-            <span>JMeter</span>
-            <span>SQL</span>
-          </div>
-        </div>
-
-        <div class="skill-group">
-          <h3>Workflow</h3>
-          <div class="chips">
-            <span>Agile / Scrum</span>
-            <span>BDD / Gherkin</span>
-            <span>Bug Reporting</span>
-            <span>Test Design</span>
-            <span>Risk Analysis</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="projects" class="section">
-      <div class="section-heading">
-        <div>
-          <p class="section-tag">Selected Work</p>
-          <h2>Projects that reflect my QA approach</h2>
-        </div>
-        <p class="section-intro">
-          These projects highlight how I validate APIs, analyze workflow impact,
-          and protect system quality through structured testing.
-        </p>
-      </div>
-
-      <div class="project-grid">
-        <article class="project-card glass">
-          <div class="project-header">
-            <div>
-              <p class="project-kicker">Project 01</p>
-              <h3>Payroll API – Unpost Payroll Feature</h3>
-            </div>
-            <div class="stack">
-              <span>Postman</span>
-              <span>SQL</span>
-              <span>JIRA</span>
-            </div>
-          </div>
-          <p>
-            Validated the payroll unposting flow to ensure finalized payroll entries
-            could safely return to an editable state without affecting downstream data.
-          </p>
-          <ul>
-            <li>Covered positive, negative, and edge-case scenarios</li>
-            <li>Verified status rollback and business rule enforcement</li>
-            <li>Checked impact on payslips, payroll tables, and related records</li>
-          </ul>
-
-          <div class="artifact-box">
-            <p class="artifact-title">Sample Artifacts</p>
-            <!-- <p class="artifact-desc">
-              These supporting materials show how I designed coverage, documented issues,
-              and validated API behavior for this feature.
-            </p> -->
-            <div class="artifact-links">
-              <a href="https://docs.google.com/document/d/1JpO3THXT7E7BrLWY8KzxwArxsy7sLzjx46sMJjp-s2k/edit?tab=t.0" target="_blank" rel="noopener noreferrer">View Test Case</a>
-              <a href="https://docs.google.com/document/d/1HFLXGLS3XocxfWa93sFWl5OvGUvK28U1eoH4V2hmSG4/edit?tab=t.0" target="_blank" rel="noopener noreferrer">View Bug Report</a>
-              <a href="https://docs.google.com/document/d/1jQlOmjryqzjXG_V98JA-tW0FbutLygChoaLpTE_3lbw/edit?tab=t.0" target="_blank" rel="noopener noreferrer">View API Proof</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="project-card glass">
-          <div class="project-header">
-            <div>
-              <p class="project-kicker">Project 02</p>
-              <h3>Attendance Engine – Schedule Adjustment Integration</h3>
-            </div>
-            <div class="stack">
-              <span>Postman</span>
-              <span>SQL</span>
-              <span>JIRA</span>
-            </div>
-          </div>
-          <p>
-            Tested approved schedule adjustments to confirm they appeared correctly
-            in attendance reports and did not affect unrelated endpoints.
-          </p>
-          <ul>
-            <li>Validated single and batch attendance results</li>
-            <li>Confirmed updated schedule labels and report output</li>
-            <li>Performed regression checks on non-impacted APIs</li>
-          </ul>
-
-          <div class="artifact-box">
-            <p class="artifact-title">Sample Artifacts</p>
-            <!-- <p class="artifact-desc">
-              This project can include a test case sample, a defect report, and
-              API response validation for attendance-related changes.
-            </p> -->
-            <div class="artifact-links">
-              <a href="#" target="_blank" rel="noopener noreferrer">View Test Case</a>
-              <a href="#" target="_blank" rel="noopener noreferrer">View Bug Report</a>
-              <a href="#" target="_blank" rel="noopener noreferrer">View API Proof</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- <article class="project-card glass">
-          <div class="project-header">
-            <div>
-              <p class="project-kicker">Project 03</p>
-              <h3>Overtime API – Feature Flag Validation</h3>
-            </div>
-            <div class="stack">
-              <span>Swagger</span>
-              <span>Postman</span>
-              <span>JIRA</span>
-            </div>
-          </div>
-          <p>
-            Verified response payload changes under feature flag conditions, including
-            field behavior across different overtime classifications and statuses.
-          </p>
-          <ul>
-            <li>Tested conditional fields such as shiftId and shiftAssignmentId</li>
-            <li>Covered Approved, Rejected, Cancelled, and related states</li>
-            <li>Ensured backward compatibility for unaffected cases</li>
-          </ul>
-
-          <div class="artifact-box">
-            <p class="artifact-title">Sample Artifacts</p>
-            <!-- <p class="artifact-desc">
-              Use this section for screenshots showing field validation,
-              feature flag behavior, and issue documentation.
-            </p> -->
-            <!-- <div class="artifact-links">
-              <a href="#" target="_blank" rel="noopener noreferrer">View Test Case</a>
-              <a href="#" target="_blank" rel="noopener noreferrer">View Bug Report</a>
-              <a href="#" target="_blank" rel="noopener noreferrer">View API Proof</a>
-            </div>
-          </div>
-        </article> -->
-
-        <!-- <article class="project-card glass">
-          <div class="project-header">
-            <div>
-              <p class="project-kicker">Project 04</p>
-              <h3>Reports API – Account ID Logic Update</h3>
-            </div>
-            <div class="stack">
-              <span>Postman</span>
-              <span>JIRA</span>
-            </div>
-          </div>
-          <p>
-            Tested support for nullable accountId values while preserving expected
-            report behavior and legacy compatibility.
-          </p>
-          <ul>
-            <li>Validated null and non-null accountId scenarios</li>
-            <li>Checked backward compatibility and error handling</li>
-            <li>Confirmed correct request processing and response behavior</li>
-          </ul>
-
-          <div class="artifact-box">
-            <p class="artifact-title">Sample Artifacts</p>
-            <!-- <p class="artifact-desc">
-              Add a sample test case and bug report here to show how you handled
-              business-rule changes and validation coverage.
-            </p> -->
-            <!-- <div class="artifact-links">
-              <a href="#" target="_blank" rel="noopener noreferrer">View Test Case</a>
-              <a href="#" target="_blank" rel="noopener noreferrer">View Bug Report</a>
-              <a href="#" target="_blank" rel="noopener noreferrer">View API Proof</a>
-            </div>
-          </div>
-        </article> --> 
-      </div>
-    </section>
-
-    <section id="artifacts" class="section">
-      <div class="section-heading">
-        <div>
-          <p class="section-tag">Test Artifacts</p>
-          <h2>Proof of my QA process</h2>
-        </div>
-        <p class="section-intro">
-          This section is where I showcase how I write test cases, report bugs,
-          and validate APIs using structured documentation.
-        </p>
-      </div>
-
-      <div class="artifact-grid">
-        <div class="artifact-card glass">
-          <p class="artifact-card-tag">Test Cases</p>
-          <h3>Structured scenario design</h3>
-          <p>
-            Samples of BDD-style and functional test cases covering positive,
-            negative, and edge-case behavior.
-          </p>
-          <div class="artifact-links">
-            <a href="https://docs.google.com/document/d/1GHYdI88tO2lQXFScSD7vrXwUIK7B2YWsHseUVo1lE0I/edit?usp=sharing" target="_blank" rel="noopener noreferrer">Open Sample</a>
-          </div>
-        </div>
-
-        <div class="artifact-card glass">
-          <p class="artifact-card-tag">Bug Reports</p>
-          <h3>Clear defect documentation</h3>
-          <p>
-            Examples of bug reports with reproduction steps, expected versus actual
-            results, and severity-based communication.
-          </p>
-          <div class="artifact-links">
-            <a href="https://docs.google.com/document/d/13VQz5WMP4pR-DdcQAgr50GTOrYT1Zl1w_qNUCM5BpKs/edit?usp=sharing" target="_blank" rel="noopener noreferrer">Open Sample </a>
-          </div>
-        </div>
-
-        <div class="artifact-card glass">
-          <p class="artifact-card-tag">API Validation</p>
-          <h3>Request and response checks</h3>
-          <p>
-            Postman request samples, response body checks, and endpoint validation
-            evidence used during testing.
-          </p>
-          <div class="artifact-links">
-            <a href="https://docs.google.com/document/d/13sbyLwE4eh59R5SIpjAvEXZjKrQ70ZEcp0zO1b95Leg/edit?usp=sharing" target="_blank" rel="noopener noreferrer">Open Sample</a>
-          </div>
-        </div>
-
-        <div class="artifact-card glass">
-          <p class="artifact-card-tag">SQL Verification</p>
-          <h3>Data-level validation</h3>
-          <p>
-            Optional examples showing how I verify records and confirm system data
-            accuracy after feature execution.
-          </p>
-          <div class="artifact-links">
-            <a href="https://docs.google.com/document/d/1KFFanUWTpdIHrVLIJVHjUAnuGMEeWzbX_fwphKGjMoc/edit?usp=sharing" target="_blank" rel="noopener noreferrer">Open Sample</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="strengths" class="section split">
-      <div class="content-card glass">
-        <p class="section-tag">Strengths</p>
-        <h2>How I add value in QA</h2>
-        <div class="strength-list">
-          <div class="strength-item">
-            <h3>Structured test design</h3>
-            <p>
-              I build test coverage around workflows, dependencies, business rules,
-              and real user scenarios instead of only validating the happy path.
-            </p>
-          </div>
-          <div class="strength-item">
-            <h3>Business logic awareness</h3>
-            <p>
-              I pay close attention to how rules, computations, and edge cases affect
-              system behavior, especially in payroll and attendance features.
-            </p>
-          </div>
-          <div class="strength-item">
-            <h3>Clear communication</h3>
-            <p>
-              I document findings clearly so developers and stakeholders can quickly
-              understand the issue, reproduce it, and act on it.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div id="contact" class="content-card glass contact-card">
-        <p class="section-tag">Contact</p>
-        <h2>Let’s connect</h2>
-        <p>
-          I’m open to QA opportunities involving manual testing, API validation,
-          regression testing, and business-critical systems.
-        </p>
-
-        <div class="contact-list">
-          <p><strong>Email</strong><br />jeffreyabayon@gmail.com</p>
-          <p><strong>LinkedIn</strong><br />https://www.linkedin.com/in/jefrey-abayon-ctfl-302aa6289/</p>
-          <p><strong>Location</strong><br />General Santos City, Philippines</p>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="container footer-inner">
-      <p>© 2026 Jefrey Abayon</p>
-      <p>Focused on quality, clarity, and real-world testing.</p>
     </div>
-  </footer>
-  <script>
-  const revealEls = document.querySelectorAll(
-    '.section, .project-card, .content-card, .artifact-card'
-  );
+  </div>
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('show');
-        observer.unobserve(entry.target); // animate once only
-      }
+  <a href="#about" class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-bar"></div>
+  </a>
+</section>
+
+<!-- ─── ABOUT + SKILLS ─── -->
+<section id="about" class="sec">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-card reveal-left">
+        <div class="sec-label">About Me</div>
+        <h2 class="sec-h2">Testing beyond<br>the <em>happy path.</em></h2>
+        <p>I am a QA tester with 3 years of experience working on HR and payroll systems. My day-to-day work includes validating API responses, checking business rules, creating structured test coverage, and making sure changes do not introduce unexpected issues in related modules.</p>
+        <p>I enjoy turning complex requirements into practical test scenarios and helping teams catch issues early before they affect production users.</p>
+        <a href="jefrey-abayon-cv-2026.pdf" download class="btn btn-primary" style="margin-top:1.6rem;display:inline-block;">
+          Download Resume
+        </a>
+        <div class="cert-box">
+          <div class="cert-label">Certifications</div>
+          <div class="cert-name">ISTQB Certified Tester – Foundation Level (CTFL)</div>
+          <a href="ctfl-certificate.jpg" target="_blank">View Certificate →</a>
+        </div>
+      </div>
+
+      <div class="skills-card reveal-right">
+        <div class="sec-label">Skills &amp; Tools</div>
+        <h2 class="sec-h2" style="margin-bottom:1.8rem">Tools and areas<br>I <em>work with</em></h2>
+        <div class="skill-group">
+          <h4>Testing</h4>
+          <div class="chips">
+            <span class="chip">Manual Testing</span>
+            <span class="chip">Functional Testing</span>
+            <span class="chip">Regression Testing</span>
+            <span class="chip">API Testing</span>
+            <span class="chip">End-to-End Testing</span>
+            <span class="chip">UAT Support</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h4>Tools</h4>
+          <div class="chips">
+            <span class="chip">Postman</span>
+            <span class="chip">Swagger</span>
+            <span class="chip">JIRA</span>
+            <span class="chip">JMeter</span>
+            <span class="chip">SQL</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h4>Workflow</h4>
+          <div class="chips">
+            <span class="chip">Agile / Scrum</span>
+            <span class="chip">BDD / Gherkin</span>
+            <span class="chip">Bug Reporting</span>
+            <span class="chip">Test Design</span>
+            <span class="chip">Risk Analysis</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PROJECTS ─── -->
+<section id="projects" class="sec" style="background:var(--navy-mid)">
+  <div class="container">
+    <div class="projects-header">
+      <div class="reveal-left">
+        <div class="sec-label">Selected Work</div>
+        <h2 class="sec-h2">Projects that reflect<br>my <em>QA approach</em></h2>
+      </div>
+      <p class="sec-p reveal-right" style="margin:0">These projects highlight how I validate APIs, analyze workflow impact, and protect system quality through structured testing.</p>
+    </div>
+
+    <div class="project-grid">
+      <!-- Project 01 -->
+      <article class="project-card reveal" style="transition-delay:0.05s">
+        <div class="proj-kicker">Project 01</div>
+        <h3>Payroll API – Unpost Payroll Feature</h3>
+        <div class="proj-stack">
+          <span class="stack-tag">Postman</span>
+          <span class="stack-tag">SQL</span>
+          <span class="stack-tag">JIRA</span>
+        </div>
+        <p>Validated the payroll unposting flow to ensure finalized payroll entries could safely return to an editable state without affecting downstream data.</p>
+        <ul class="proj-list">
+          <li>Covered positive, negative, and edge-case scenarios</li>
+          <li>Verified status rollback and business rule enforcement</li>
+          <li>Checked impact on payslips, payroll tables, and related records</li>
+        </ul>
+        <div class="artifact-box">
+          <div class="artifact-box-title">Sample Artifacts</div>
+          <div class="artifact-links">
+            <a class="art-link" href="https://docs.google.com/document/d/1JpO3THXT7E7BrLWY8KzxwArxsy7sLzjx46sMJjp-s2k/edit?tab=t.0" target="_blank" rel="noopener">View Test Case</a>
+            <a class="art-link" href="https://docs.google.com/document/d/1HFLXGLS3XocxfWa93sFWl5OvGUvK28U1eoH4V2hmSG4/edit?tab=t.0" target="_blank" rel="noopener">View Bug Report</a>
+            <a class="art-link" href="https://docs.google.com/document/d/1jQlOmjryqzjXG_V98JA-tW0FbutLygChoaLpTE_3lbw/edit?tab=t.0" target="_blank" rel="noopener">View API Proof</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Project 02 -->
+      <article class="project-card reveal" style="transition-delay:0.15s">
+        <div class="proj-kicker">Project 02</div>
+        <h3>Attendance Engine – Schedule Adjustment Integration</h3>
+        <div class="proj-stack">
+          <span class="stack-tag">Postman</span>
+          <span class="stack-tag">SQL</span>
+          <span class="stack-tag">JIRA</span>
+        </div>
+        <p>Tested approved schedule adjustments to confirm they appeared correctly in attendance reports and did not affect unrelated endpoints.</p>
+        <ul class="proj-list">
+          <li>Validated single and batch attendance results</li>
+          <li>Confirmed updated schedule labels and report output</li>
+          <li>Performed regression checks on non-impacted APIs</li>
+        </ul>
+        <div class="artifact-box">
+          <div class="artifact-box-title">Sample Artifacts</div>
+          <div class="artifact-links">
+            <a class="art-link" href="#" target="_blank" rel="noopener">View Test Case</a>
+            <a class="art-link" href="#" target="_blank" rel="noopener">View Bug Report</a>
+            <a class="art-link" href="#" target="_blank" rel="noopener">View API Proof</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ARTIFACTS ─── -->
+<section id="artifacts" class="sec">
+  <div class="container">
+    <div class="artifacts-header">
+      <div class="reveal-left">
+        <div class="sec-label">Test Artifacts</div>
+        <h2 class="sec-h2">Proof of my<br><em>QA process</em></h2>
+      </div>
+      <p class="sec-p reveal-right" style="margin:0">How I write test cases, report bugs, and validate APIs using structured documentation.</p>
+    </div>
+
+    <div class="artifact-grid">
+      <div class="artifact-card reveal" style="transition-delay:0.05s">
+        <div class="art-tag">Test Cases</div>
+        <h3>Structured scenario design</h3>
+        <p>Samples of BDD-style and functional test cases covering positive, negative, and edge-case behavior.</p>
+        <div class="artifact-links">
+          <a class="art-link" href="https://docs.google.com/document/d/1GHYdI88tO2lQXFScSD7vrXwUIK7B2YWsHseUVo1lE0I/edit?usp=sharing" target="_blank" rel="noopener">Open Sample →</a>
+        </div>
+      </div>
+      <div class="artifact-card reveal" style="transition-delay:0.12s">
+        <div class="art-tag">Bug Reports</div>
+        <h3>Clear defect documentation</h3>
+        <p>Bug reports with reproduction steps, expected vs. actual results, and severity-based communication.</p>
+        <div class="artifact-links">
+          <a class="art-link" href="https://docs.google.com/document/d/13VQz5WMP4pR-DdcQAgr50GTOrYT1Zl1w_qNUCM5BpKs/edit?usp=sharing" target="_blank" rel="noopener">Open Sample →</a>
+        </div>
+      </div>
+      <div class="artifact-card reveal" style="transition-delay:0.2s">
+        <div class="art-tag">API Validation</div>
+        <h3>Request and response checks</h3>
+        <p>Postman request samples, response body checks, and endpoint validation evidence used during testing.</p>
+        <div class="artifact-links">
+          <a class="art-link" href="https://docs.google.com/document/d/13sbyLwE4eh59R5SIpjAvEXZjKrQ70ZEcp0zO1b95Leg/edit?usp=sharing" target="_blank" rel="noopener">Open Sample →</a>
+        </div>
+      </div>
+      <div class="artifact-card reveal" style="transition-delay:0.28s">
+        <div class="art-tag">SQL Verification</div>
+        <h3>Data-level validation</h3>
+        <p>Examples showing how I verify records and confirm system data accuracy after feature execution.</p>
+        <div class="artifact-links">
+          <a class="art-link" href="https://docs.google.com/document/d/1KFFanUWTpdIHrVLIJVHjUAnuGMEeWzbX_fwphKGjMoc/edit?usp=sharing" target="_blank" rel="noopener">Open Sample →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── STRENGTHS + CONTACT ─── -->
+<section id="strengths" class="sec" style="background:var(--navy-mid)">
+  <div class="container">
+    <div class="sc-grid">
+      <div class="strengths-card reveal-left">
+        <div class="sec-label">Strengths</div>
+        <h2 class="sec-h2" style="margin-bottom:1.8rem">How I <em>add value</em><br>in QA</h2>
+        <div class="strength-item">
+          <h4>Structured test design</h4>
+          <p>I build test coverage around workflows, dependencies, business rules, and real user scenarios — not just the happy path.</p>
+        </div>
+        <div class="strength-item">
+          <h4>Business logic awareness</h4>
+          <p>I pay close attention to how rules, computations, and edge cases affect system behavior, especially in payroll and attendance features.</p>
+        </div>
+        <div class="strength-item">
+          <h4>Clear communication</h4>
+          <p>I document findings clearly so developers and stakeholders can quickly understand the issue, reproduce it, and act on it.</p>
+        </div>
+      </div>
+
+      <div id="contact" class="contact-card reveal-right">
+        <div class="sec-label">Contact</div>
+        <h2 class="sec-h2">Let's <em>connect</em></h2>
+        <p>I'm open to QA opportunities involving manual testing, API validation, regression testing, and business-critical systems.</p>
+        <div class="contact-list">
+          <div class="contact-item">
+            <strong>Email</strong>
+            <a href="mailto:jeffreyabayon@gmail.com">jeffreyabayon@gmail.com</a>
+          </div>
+          <div class="contact-item">
+            <strong>LinkedIn</strong>
+            <a href="https://www.linkedin.com/in/jefrey-abayon-ctfl-302aa6289/" target="_blank" rel="noopener">linkedin.com/in/jefrey-abayon-ctfl</a>
+          </div>
+          <div class="contact-item">
+            <strong>Location</strong>
+            <span>General Santos City, Philippines</span>
+          </div>
+        </div>
+        <a href="jefrey-abayon-cv-2026.pdf" download class="btn btn-primary" style="margin-top:1.8rem;display:inline-block;">
+          Download Resume
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="container footer-inner">
+    <p>© 2026 <span>Jefrey Abayon</span> · ISTQB CTFL</p>
+    <p>Focused on quality, clarity, and real-world testing.</p>
+  </div>
+</footer>
+
+<script>
+  // ─── CURSOR ───
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  (function tick() {
+    cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(tick);
+  })();
+  document.querySelectorAll('a, button, .project-card, .artifact-card, .metric, .strength-item, .chip').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '16px'; cursor.style.height = '16px';
+      ring.style.width = '50px'; ring.style.height = '50px';
     });
-  }, { threshold: 0.1 });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '9px'; cursor.style.height = '9px';
+      ring.style.width = '34px'; ring.style.height = '34px';
+    });
+  });
 
-  revealEls.forEach(el => observer.observe(el));
+  // ─── PARTICLES ───
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 28; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.cssText = `
+      left: ${Math.random() * 100}%;
+      animation-duration: ${9 + Math.random() * 13}s;
+      animation-delay: ${Math.random() * 14}s;
+      width: ${1 + Math.random() * 2.2}px;
+      height: ${1 + Math.random() * 2.2}px;
+      opacity: 0;
+    `;
+    container.appendChild(p);
+  }
+
+  // ─── SCROLL REVEAL ───
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => observer.observe(el));
+
+  // ─── SMOOTH ANCHOR SCROLL ───
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
 </script>
 </body>
 </html>
