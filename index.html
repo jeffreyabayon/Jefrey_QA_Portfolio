@@ -171,6 +171,7 @@
     }
     .hero-h1 {
       font-family: Inter, Arial, Helvetica, sans-serif;
+      font-size: clamp(2.6rem, 5.5vw, 4.8rem);
       line-height: 1.04; font-weight: 800;
       letter-spacing: -0.03em;
       color: var(--text);
@@ -524,24 +525,133 @@
       50% { opacity: 1; }
     }
 
-    /* ─── RESPONSIVE ─── */
-    @media (max-width: 1024px) {
-      .hero-inner, .about-grid, .sc-grid { grid-template-columns: 1fr; gap: 2rem; }
-      .projects-header { grid-template-columns: 1fr; }
-      .project-grid, .artifact-grid { grid-template-columns: 1fr; }
-      .hero-geo { display: none; }
+    /* ─── HAMBURGER BUTTON ─── */
+    .nav-toggle {
+      display: none;
+      flex-direction: column; justify-content: center; gap: 5px;
+      width: 38px; height: 38px; padding: 6px;
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; cursor: pointer;
+      transition: border-color 0.3s;
+      flex-shrink: 0;
     }
-    @media (max-width: 720px) {
-      .nav { gap: 14px; }
-      .nav a { font-size: 0.8rem; }
+    .nav-toggle:hover { border-color: var(--border-accent); }
+    .nav-toggle span {
+      display: block; width: 100%; height: 1.5px;
+      background: var(--text); border-radius: 2px;
+      transition: transform 0.35s ease, opacity 0.3s ease, width 0.3s ease;
+      transform-origin: center;
+    }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; width: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* ─── RESPONSIVE — Large tablet (≤1024px) ─── */
+    @media (max-width: 1024px) {
+      .hero-inner        { grid-template-columns: 1fr; gap: 2.5rem; }
+      .about-grid        { grid-template-columns: 1fr; gap: 2rem; }
+      .sc-grid           { grid-template-columns: 1fr; gap: 2rem; }
+      .projects-header   { grid-template-columns: 1fr; gap: 1rem; }
+      .project-grid      { grid-template-columns: 1fr; }
+      .artifact-grid     { grid-template-columns: 1fr; }
+      .artifacts-header  { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .hero-geo          { display: none; }
+      .sec               { padding: 5rem 0; }
+    }
+
+    /* ─── RESPONSIVE — Tablet (≤768px) ─── */
+    @media (max-width: 768px) {
+      /* Nav → mobile drawer */
+      .nav-toggle { display: flex; }
+      .nav {
+        display: none;
+        position: absolute; top: 72px; left: 0; right: 0;
+        flex-direction: column; gap: 0;
+        background: rgba(6,16,28,0.97);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border);
+        padding: 0.5rem 0 1rem;
+        z-index: 99;
+      }
+      .nav.open { display: flex; }
+      .nav a {
+        padding: 0.85rem 1.6rem;
+        font-size: 0.95rem;
+        border-bottom: 1px solid rgba(255,255,255,0.04);
+      }
+      .nav a::after { display: none; }
+      .nav a:last-child { border-bottom: none; }
+
+      /* Hero */
+      #hero { padding: 4rem 0 5rem; min-height: auto; }
+      .hero-h1 { font-size: clamp(2.2rem, 7vw, 3.2rem); }
+      .hero-copy { font-size: 0.95rem; }
       .hero-actions { flex-direction: column; }
       .hero-actions .btn { width: 100%; text-align: center; }
-      .hero-metrics { flex-direction: column; }
-      .artifacts-header { flex-direction: column; align-items: flex-start; }
-      .footer-inner { flex-direction: column; text-align: center; }
+      .hero-metrics { flex-direction: column; gap: 0.8rem; }
+      .metric { flex: unset; width: 100%; }
+      .hero-right { gap: 1rem; }
+
+      /* Sections */
+      .sec { padding: 4rem 0; }
+      .about-card, .skills-card { padding: 1.8rem; border-radius: 18px; }
+      .project-card, .artifact-card { padding: 1.6rem; border-radius: 18px; }
+      .strengths-card, .contact-card { padding: 1.8rem; border-radius: 18px; }
+
+      /* Footer */
+      .footer-inner { flex-direction: column; text-align: center; gap: 0.5rem; }
     }
+
+    /* ─── RESPONSIVE — Mobile (≤480px) ─── */
     @media (max-width: 480px) {
-      .hero-h1 { font-size: 2.2rem; }
+      .container { width: calc(100% - 28px); }
+
+      /* Nav */
+      .brand-name { font-size: 0.88rem; }
+      .brand-box  { width: 34px; height: 34px; font-size: 0.75rem; }
+
+      /* Hero */
+      #hero { padding: 3rem 0 4.5rem; }
+      .hero-h1 { font-size: clamp(1.9rem, 8vw, 2.4rem); letter-spacing: -0.02em; }
+      .hero-tag { font-size: 0.65rem; letter-spacing: 0.16em; }
+      .hero-copy { font-size: 0.9rem; }
+      .glass-panel { padding: 1.4rem; border-radius: 16px; }
+      .hero-scroll { display: none; }
+
+      /* Section headings */
+      .sec-h2 { font-size: clamp(1.6rem, 6vw, 2rem); }
+      .sec { padding: 3.5rem 0; }
+
+      /* About */
+      .about-card, .skills-card { padding: 1.4rem; border-radius: 16px; }
+      .cert-box { padding: 1rem; }
+      .chips { gap: 0.45rem; }
+      .chip { font-size: 0.75rem; padding: 0.38rem 0.75rem; }
+
+      /* Projects */
+      .project-card, .artifact-card { padding: 1.4rem; border-radius: 16px; }
+      .project-card h3, .artifact-card h3 { font-size: 1rem; }
+      .art-link { font-size: 0.75rem; padding: 0.4rem 0.8rem; }
+      .artifact-links { gap: 0.45rem; }
+      .proj-stack { gap: 0.4rem; }
+      .stack-tag { font-size: 0.7rem; padding: 0.25rem 0.6rem; }
+
+      /* Strengths / Contact */
+      .strength-item { padding: 1rem 1.1rem; }
+      .strength-item h4 { font-size: 0.92rem; }
+      .strengths-card, .contact-card { padding: 1.4rem; border-radius: 16px; }
+      .contact-card .btn { width: 100%; text-align: center; }
+
+      /* Buttons */
+      .btn { padding: 0.8rem 1.4rem; font-size: 0.82rem; }
+    }
+
+    /* ─── RESPONSIVE — Very small (≤360px) ─── */
+    @media (max-width: 360px) {
+      .container { width: calc(100% - 20px); }
+      .hero-h1 { font-size: 1.75rem; }
+      .sec-h2  { font-size: 1.5rem; }
+      .brand-name { display: none; }
     }
   </style>
 </head>
@@ -563,7 +673,7 @@
       <div class="brand-box">JA</div>
       <span class="brand-name">Jefrey Abayon</span>
     </a>
-    <nav class="nav">
+    <nav class="nav" id="mainNav">
       <a href="#about">About</a>
       <a href="#about">Skills</a>
       <a href="#projects">Projects</a>
@@ -571,6 +681,9 @@
       <a href="#strengths">Strengths</a>
       <a href="#strengths">Contact</a>
     </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
 
@@ -601,10 +714,10 @@
     <div class="hero-inner">
       <div class="hero-left">
         <div class="hero-tag">Manual QA Engineer · 3 Years Experience</div>
-        <h2 class="sec-h2">
+        <h1 class="hero-h1">
           I test complex systems with
           <em>clarity, structure,<br>and confidence.</em>
-        </h2>
+        </h1>
         <p class="hero-copy">
           I specialize in manual QA for payroll, workforce management, and API-driven systems.
           My focus is validating complex business logic, reducing regression risks,
@@ -650,7 +763,7 @@
   </div>
 
   <a href="#about" class="hero-scroll">
-    <span></span>
+    <span>Scroll</span>
     <div class="scroll-bar"></div>
   </a>
 </section>
@@ -876,12 +989,35 @@
 <!-- ─── FOOTER ─── -->
 <footer>
   <div class="container footer-inner">
-    <p>© 2026 <span>Jefrey Abayon</span> · Software QA</p>
+    <p>© 2026 <span>Jefrey Abayon</span> · ISTQB CTFL</p>
     <p>Focused on quality, clarity, and real-world testing.</p>
   </div>
 </footer>
 
 <script>
+  // ─── HAMBURGER NAV ───
+  const navToggle = document.getElementById('navToggle');
+  const mainNav   = document.getElementById('mainNav');
+  navToggle.addEventListener('click', () => {
+    const open = mainNav.classList.toggle('open');
+    navToggle.classList.toggle('open', open);
+    navToggle.setAttribute('aria-expanded', open);
+  });
+  // Close nav when a link is clicked
+  mainNav.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      mainNav.classList.remove('open');
+      navToggle.classList.remove('open');
+    });
+  });
+  // Close nav on outside click
+  document.addEventListener('click', e => {
+    if (!mainNav.contains(e.target) && !navToggle.contains(e.target)) {
+      mainNav.classList.remove('open');
+      navToggle.classList.remove('open');
+    }
+  });
+
   // ─── CURSOR ───
   const cursor = document.getElementById('cursor');
   const ring = document.getElementById('cursorRing');
