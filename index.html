@@ -4,40 +4,47 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jefrey Abayon | QA Engineer Portfolio</title>
-  <meta name="description" content="Portfolio of Jefrey Abayon, Manual QA Engineer with 3 years of experience in API, payroll, attendance, and end-to-end system testing." />
+  <meta name="description" content="Portfolio of Jefrey Abayon, Manual QA Engineer with 3+ years of experience in API, payroll, attendance, and end-to-end system testing." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
 
   <style>
     /* ─── TOKENS ─── */
     :root {
-      --bg: #06101c;
-      --navy: #091523;
-      --navy-mid: #0d1c2e;
-      --panel: rgba(255,255,255,0.055);
-      --panel-hover: rgba(255,255,255,0.085);
-      --border: rgba(255,255,255,0.09);
-      --border-accent: rgba(88,225,203,0.28);
-      --text: #e8f2fd;
-      --muted: #7a9ab8;
-      --accent: #58e1cb;
-      --accent-dim: rgba(88,225,203,0.14);
-      --accent-2: #7ea7ff;
-      --accent-2-dim: rgba(126,167,255,0.12);
+      --bg: #141413;
+      --navy: #0f0f0e;
+      --navy-mid: #1b1b19;
+      --panel: rgba(var(--ink),0.055);
+      --panel-hover: rgba(var(--ink),0.085);
+      --border: rgba(var(--ink),0.09);
+      --border-accent: rgba(var(--hi),0.28);
+      --text: #edece7;
+      --muted: #97958c;
+      --accent: #c9c8bf;
+      --accent-dim: rgba(var(--hi),0.14);
+      --accent-2: #afaca1;
+      --ink: 255,255,255;
+      --hi: 201,200,191;
+      --hi2: 175,172,161;
+      --soft: #e4e2da;
+      --on-accent: #141413;
+      --display: 'Space Grotesk', Inter, Arial, sans-serif;
+      --mono: 'Space Mono', ui-monospace, Consolas, monospace;
+      --accent-2-dim: rgba(var(--hi2),0.12);
       --shadow: 0 20px 60px rgba(0,0,0,0.35);
       --transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: clip; }
 
     body {
       font-family: Inter, Arial, Helvetica, sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.65;
-      overflow-x: hidden;
+      overflow-x: clip;
     }
 
     ::-webkit-scrollbar { width: 4px; }
@@ -67,14 +74,14 @@
     .bg-grid {
       position: fixed; inset: 0;
       background-image:
-        linear-gradient(rgba(88,225,203,0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(88,225,203,0.025) 1px, transparent 1px);
+        linear-gradient(rgba(var(--hi),0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(var(--hi),0.025) 1px, transparent 1px);
       background-size: 48px 48px;
       pointer-events: none; z-index: 0;
     }
     .bg-orb {
       position: fixed; border-radius: 50%;
-      filter: blur(100px); pointer-events: none; z-index: 0; opacity: 0.15;
+      filter: blur(100px); pointer-events: none; z-index: 0; opacity: 0.07;
     }
     .orb-1 { width: 500px; height: 500px; top: -150px; left: -150px; background: var(--accent); }
     .orb-2 { width: 400px; height: 400px; top: 100px; right: -120px; background: var(--accent-2); }
@@ -86,9 +93,9 @@
     /* ─── NAV ─── */
     .site-header {
       position: sticky; top: 0;
-      background: rgba(6,16,28,0.75);
+      background: rgba(20,20,19,0.75);
       backdrop-filter: blur(18px);
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(var(--ink),0.05);
       z-index: 100;
     }
     .nav-wrap {
@@ -105,24 +112,133 @@
       font-weight: 800; color: var(--accent);
     }
     .brand-name { font-family: Inter, Arial, Helvetica, sans-serif; font-size: 0.95rem; font-weight: 700; }
-    .nav { display: flex; gap: 24px; }
+    .nav { display: flex; gap: 4px; position: relative; }
     .nav a {
       font-size: 0.85rem; color: var(--muted); font-weight: 500;
-      position: relative; transition: color 0.25s;
+      position: relative; z-index: 1;
+      padding: 0.4rem 0.85rem; border-radius: 9px;
+      transition: color 0.25s;
     }
-    .nav a::after {
-      content: ''; position: absolute; bottom: -4px; left: 0;
-      width: 0; height: 1.5px; background: var(--accent);
-      transition: width 0.3s ease;
+    .nav a:hover, .nav a.active { color: var(--text); }
+
+    /* Shared hover pill + active-section indicator (moved with Motion springs) */
+    .nav-pill, .nav-indicator {
+      position: absolute; top: 0; left: 0; width: 0;
+      pointer-events: none; opacity: 0;
     }
-    .nav a:hover { color: var(--text); }
-    .nav a:hover::after { width: 100%; }
+    .nav-pill {
+      background: rgba(var(--ink),0.07);
+      border: 1px solid rgba(var(--ink),0.08);
+      border-radius: 9px;
+    }
+    .nav-indicator {
+      top: auto; bottom: -13px; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      border-radius: 2px;
+      box-shadow: 0 0 12px rgba(var(--hi),0.6);
+    }
+
+    .nav-actions { display: flex; align-items: center; gap: 10px; }
+
+    /* Scroll progress */
+    .scroll-progress {
+      position: absolute; left: 0; right: 0; bottom: -1px; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transform-origin: 0 50%; transform: scaleX(0);
+      pointer-events: none;
+    }
+
+    /* ─── COMMAND PALETTE ─── */
+    .cmdk-trigger {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      height: 38px; padding: 0 0.6rem 0 0.8rem;
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 10px; color: var(--muted);
+      font: 500 0.8rem Inter, Arial, Helvetica, sans-serif;
+      cursor: pointer; transition: border-color 0.25s, color 0.25s;
+    }
+    .cmdk-trigger:hover { border-color: var(--border-accent); color: var(--text); }
+    .cmdk-trigger svg { width: 15px; height: 15px; flex-shrink: 0; }
+    kbd {
+      font: 600 0.68rem Inter, Arial, Helvetica, sans-serif;
+      padding: 0.15rem 0.4rem; border-radius: 5px;
+      background: rgba(var(--ink),0.07); border: 1px solid rgba(var(--ink),0.1);
+      color: var(--muted);
+    }
+
+    .cmdk { position: fixed; inset: 0; z-index: 1000; }
+    .cmdk[hidden] { display: none; }
+    .cmdk-backdrop {
+      position: absolute; inset: 0;
+      background: rgba(8,8,7,0.6); backdrop-filter: blur(6px);
+    }
+    .cmdk-panel {
+      position: relative; margin: 14vh auto 0;
+      width: min(580px, calc(100% - 32px));
+      background: rgba(29,29,27,0.96);
+      border: 1px solid rgba(var(--ink),0.1);
+      border-radius: 18px; overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(var(--hi),0.06);
+    }
+    .cmdk-search {
+      display: flex; align-items: center; gap: 0.8rem;
+      padding: 1rem 1.2rem; border-bottom: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .cmdk-search svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .cmdk-input {
+      flex: 1; min-width: 0; background: none; border: none; outline: none;
+      color: var(--text); font: 400 1rem Inter, Arial, Helvetica, sans-serif;
+    }
+    .cmdk-input::placeholder { color: var(--muted); }
+    .cmdk-list {
+      position: relative; list-style: none;
+      max-height: min(380px, 52vh); overflow-y: auto;
+      padding: 0.5rem; overscroll-behavior: contain;
+    }
+    .cmdk-group {
+      padding: 0.7rem 0.75rem 0.35rem;
+      font-size: 0.64rem; font-weight: 600; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .cmdk-item {
+      position: relative; z-index: 1;
+      display: flex; align-items: center; gap: 0.8rem;
+      padding: 0.65rem 0.75rem; border-radius: 10px;
+      font-size: 0.9rem; color: var(--muted); cursor: pointer;
+      transition: color 0.15s;
+    }
+    .cmdk-item[aria-selected="true"] { color: var(--text); }
+    .cmdk-item .ico {
+      width: 26px; height: 26px; border-radius: 7px; flex-shrink: 0;
+      display: grid; place-items: center; font-size: 0.8rem;
+      background: rgba(var(--ink),0.05); border: 1px solid rgba(var(--ink),0.07);
+      color: var(--accent);
+    }
+    .cmdk-item .label { flex: 1; min-width: 0; }
+    .cmdk-item mark { background: none; color: var(--accent); font-weight: 600; }
+    .cmdk-item .hint { font-size: 0.72rem; color: var(--muted); opacity: 0.8; }
+    .cmdk-highlight {
+      position: absolute; top: 0; left: 0.5rem; right: 0.5rem; height: 0;
+      background: linear-gradient(90deg, var(--accent-dim), rgba(var(--hi2),0.07));
+      border: 1px solid var(--border-accent); border-radius: 10px;
+      pointer-events: none; opacity: 0;
+    }
+    .cmdk-empty { padding: 2rem 1rem; text-align: center; font-size: 0.88rem; color: var(--muted); }
+    .cmdk-foot {
+      display: flex; gap: 1.2rem; padding: 0.7rem 1.2rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.72rem; color: var(--muted);
+    }
+    .cmdk-foot span { display: inline-flex; align-items: center; gap: 0.35rem; }
+
+    section[id], #skills, #contact { scroll-margin-top: 84px; }
 
     /* ─── HERO ─── */
     #hero {
-      position: relative; min-height: 100vh;
+      position: relative; min-height: min(100svh, 860px);
       display: flex; align-items: center;
-      overflow: hidden; padding: 5rem 0 4rem;
+      overflow: hidden; padding: 4rem 0 5rem;
     }
     .hero-particles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
     .particle {
@@ -170,16 +286,16 @@
       background: var(--accent);
     }
     .hero-h1 {
-      font-family: Inter, Arial, Helvetica, sans-serif;
-      font-size: clamp(2.6rem, 5.5vw, 4.8rem);
-      line-height: 1.04; font-weight: 800;
-      letter-spacing: -0.03em;
+      font-family: var(--display);
+      font-size: clamp(2.7rem, 5.6vw, 5rem);
+      line-height: 1.02; font-weight: 700;
+      letter-spacing: -0.035em;
       color: var(--text);
       margin-bottom: 1.4rem;
       opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
     }
     .hero-h1 em {
-      font-style: normal;
+      font-style: normal; font-weight: 300;
       background: linear-gradient(90deg, var(--accent), var(--accent-2));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -203,11 +319,11 @@
     }
     .btn:hover { transform: translateY(-3px); }
     .btn-primary {
-      background: linear-gradient(135deg, var(--accent), #7bf0dc);
-      color: #052220;
-      box-shadow: 0 8px 24px rgba(88,225,203,0.22);
+      background: linear-gradient(135deg, var(--accent), var(--soft));
+      color: var(--on-accent);
+      box-shadow: 0 8px 24px rgba(var(--hi),0.22);
     }
-    .btn-primary:hover { box-shadow: 0 12px 32px rgba(88,225,203,0.35); }
+    .btn-primary:hover { box-shadow: 0 12px 32px rgba(var(--hi),0.35); }
     .btn-secondary {
       background: var(--panel); border: 1px solid var(--border);
       color: var(--text);
@@ -230,7 +346,8 @@
       font-size: 1rem; font-weight: 700; color: var(--text);
       margin-bottom: 0.2rem;
     }
-    .metric span { font-size: 0.78rem; color: var(--muted); }
+    .metric > span { font-size: 0.78rem; color: var(--muted); }
+    .metric strong span { font-variant-numeric: tabular-nums; }
 
     /* Hero right panels */
     .hero-right {
@@ -261,7 +378,7 @@
     .glass-panel p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
 
     /* ─── SECTION COMMON ─── */
-    .sec { padding: 6rem 0; }
+    .sec { padding: 5rem 0; }
     .sec-label {
       font-size: 0.68rem; font-weight: 600; letter-spacing: 0.22em;
       text-transform: uppercase; color: var(--accent);
@@ -270,25 +387,43 @@
     }
     .sec-label::before { content: ''; width: 22px; height: 1.5px; background: var(--accent); }
     .sec-h2 {
-      font-family: Inter, Arial, Helvetica, sans-serif;
-      font-size: clamp(1.9rem, 3.5vw, 2.8rem);
-      font-weight: 800; line-height: 1.1;
-      letter-spacing: -0.025em; color: var(--text);
+      font-family: var(--display);
+      font-size: clamp(2rem, 3.6vw, 2.9rem);
+      font-weight: 700; line-height: 1.08;
+      letter-spacing: -0.03em; color: var(--text);
     }
-    .sec-h2 em { font-style: normal; color: var(--accent); }
+    .sec-h2 em { font-style: normal; font-weight: 300; color: var(--accent); }
     .sec-p { font-size: 0.95rem; color: var(--muted); line-height: 1.8; max-width: 520px; }
 
     /* ─── ABOUT ─── */
-    #about { background: var(--navy-mid); }
+    
     .about-grid {
       display: grid; grid-template-columns: 1.1fr 0.9fr;
-      gap: 3rem; align-items: start;
+      gap: 2rem; align-items: stretch;
     }
     .about-card {
       background: var(--panel); border: 1px solid var(--border);
       border-radius: 24px; padding: 2.5rem;
       transition: border-color 0.3s;
+      display: flex; flex-direction: column; align-items: flex-start;
     }
+    .about-card .cert-box { margin-top: auto; align-self: stretch; }
+    .about-card .btn { margin-bottom: 1.8rem; }
+    .facts {
+      align-self: stretch;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem;
+      margin-top: 1.4rem;
+    }
+    .facts > div {
+      padding: 0.8rem 1rem; border-radius: 12px;
+      background: rgba(var(--ink),0.03); border: 1px solid rgba(var(--ink),0.06);
+    }
+    .facts dt {
+      font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--muted); font-weight: 600;
+    }
+    .facts dd { font-size: 0.86rem; color: var(--text); font-weight: 500; margin-top: 0.15rem; }
+    @media (max-width: 360px) { .facts { grid-template-columns: 1fr; } }
     .about-card:hover { border-color: var(--border-accent); }
     .about-card p {
       font-size: 0.92rem; color: var(--muted); line-height: 1.8;
@@ -296,8 +431,8 @@
     }
     .cert-box {
       margin-top: 1.8rem; padding: 1.2rem 1.4rem;
-      background: rgba(88,225,203,0.06);
-      border: 1px solid rgba(88,225,203,0.18);
+      background: rgba(var(--hi),0.06);
+      border: 1px solid rgba(var(--hi),0.18);
       border-radius: 14px;
     }
     .cert-label {
@@ -327,19 +462,162 @@
     .chips { display: flex; flex-wrap: wrap; gap: 0.6rem; }
     .chip {
       padding: 0.45rem 0.9rem; border-radius: 999px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(var(--ink),0.05);
+      border: 1px solid rgba(var(--ink),0.08);
       font-size: 0.8rem; color: var(--text);
       transition: border-color 0.25s, background 0.25s;
     }
     .chip:hover {
-      border-color: rgba(88,225,203,0.35);
+      border-color: rgba(var(--hi),0.35);
       background: var(--accent-dim);
-      color: #c8fff5;
+      color: var(--soft);
+    }
+
+    /* ─── EXPERIENCE ─── */
+    .xp-header {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 2rem; align-items: end; margin-bottom: 3rem;
+    }
+    .xp-timeline { position: relative; padding-left: 2.4rem; }
+    .xp-track, .xp-fill {
+      position: absolute; left: 7px; top: 8px; bottom: 8px; width: 2px; border-radius: 2px;
+    }
+    .xp-track { background: rgba(var(--ink),0.07); }
+    .xp-fill {
+      background: linear-gradient(to bottom, var(--accent), var(--accent-2));
+      transform-origin: 50% 0; transform: scaleY(0);
+      box-shadow: 0 0 12px rgba(var(--hi),0.45);
+    }
+    .xp-item {
+      position: relative;
+      display: grid; grid-template-columns: 170px 1fr; gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .xp-item:last-child { margin-bottom: 0; }
+    .xp-dot {
+      position: absolute; left: calc(-2.4rem + 1px); top: 1.9rem;
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--bg); border: 2px solid rgba(var(--ink),0.18);
+      transition: border-color 0.4s, background 0.4s, box-shadow 0.4s;
+    }
+    .xp-dot.lit {
+      border-color: var(--accent); background: var(--accent);
+      box-shadow: 0 0 0 5px var(--accent-dim), 0 0 16px rgba(var(--hi),0.6);
+    }
+    .xp-when { padding-top: 1.7rem; }
+    .xp-date { display: block; font-size: 0.85rem; font-weight: 600; color: var(--text); }
+    .xp-kind {
+      font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent); font-weight: 600;
+    }
+    .xp-card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: 22px; padding: 1.8rem 2rem;
+      transition: border-color 0.3s, transform 0.4s var(--transition), background 0.3s;
+    }
+    .xp-card:hover { border-color: var(--border-accent); transform: translateY(-4px); background: var(--panel-hover); }
+    .xp-card h3 { font-size: 1.15rem; font-weight: 700; color: var(--text); }
+    .xp-org { font-size: 0.88rem; color: var(--accent-2); margin: 0.2rem 0 0.9rem; font-weight: 500; }
+    .xp-card > p { font-size: 0.88rem; color: var(--muted); line-height: 1.75; }
+    .xp-card .proj-list { margin: 0.4rem 0 1.2rem; }
+    .xp-highlight {
+      margin-bottom: 1.2rem; padding: 1rem 1.2rem;
+      background: rgba(var(--hi),0.05); border: 1px solid rgba(var(--hi),0.16);
+      border-radius: 14px;
+    }
+    .xp-highlight strong { display: block; font-size: 0.85rem; color: var(--text); margin-bottom: 0.3rem; }
+    .xp-highlight p { font-size: 0.83rem; color: var(--muted); line-height: 1.7; }
+    .xp-card .proj-stack { margin-bottom: 0; }
+
+    /* ─── AUTOMATION SAMPLES ─── */
+    .code-showcase {
+      display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 1.5rem;
+      align-items: start;
+    }
+    .code-tabs { position: relative; display: flex; flex-direction: column; gap: 0.4rem; }
+    .code-tab {
+      position: relative; z-index: 1; text-align: left; cursor: pointer;
+      padding: 0.95rem 1.1rem; border-radius: 14px;
+      background: none; border: 1px solid transparent; color: var(--muted);
+      font: inherit; transition: color 0.2s;
+    }
+    .code-tab:hover { color: var(--text); }
+    .code-tab[aria-selected="true"] { color: var(--text); }
+    .code-tab .file {
+      display: flex; align-items: center; gap: 0.5rem;
+      font: 600 0.85rem var(--mono);
+    }
+    .code-tab .file::before {
+      content: ''; width: 7px; height: 7px; border-radius: 2px; flex-shrink: 0;
+      background: var(--muted); transition: background 0.2s;
+    }
+    .code-tab[aria-selected="true"] .file::before { background: var(--accent); }
+    .code-tab .desc { display: block; font-size: 0.78rem; line-height: 1.55; margin-top: 0.3rem; color: var(--muted); }
+    .code-tab-hl {
+      position: absolute; left: 0; top: 0; width: 0; height: 0; z-index: 0;
+      background: var(--panel); border: 1px solid var(--border-accent); border-radius: 14px;
+      pointer-events: none; opacity: 0;
+    }
+
+    .code-window {
+      background: #0e0e0d; border: 1px solid var(--border);
+      border-radius: 18px; overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .code-bar {
+      display: flex; align-items: center; gap: 0.8rem;
+      padding: 0.7rem 1rem; border-bottom: 1px solid var(--border);
+      background: rgba(var(--ink),0.025);
+    }
+    .code-dots { display: flex; gap: 6px; }
+    .code-dots i { width: 10px; height: 10px; border-radius: 50%; background: rgba(var(--ink),0.12); }
+    .code-dots i:nth-child(1) { background: #c9c8bf; } .code-dots i:nth-child(2) { background: #bdbbb2; } .code-dots i:nth-child(3) { background: #afaca1; }
+    .code-path {
+      flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      font: 500 0.78rem var(--mono); color: var(--muted);
+    }
+    .code-copy {
+      padding: 0.3rem 0.7rem; border-radius: 7px; cursor: pointer;
+      background: rgba(var(--ink),0.05); border: 1px solid var(--border);
+      color: var(--muted); font: 600 0.72rem Inter, Arial, sans-serif;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .code-copy:hover { color: var(--text); border-color: var(--border-accent); }
+    .code-body { max-height: 540px; overflow: auto; }
+    .code-body pre {
+      margin: 0; padding: 1.2rem 1.3rem;
+      font: 400 0.76rem/1.75 var(--mono);
+      color: #dad8d0; tab-size: 4;
+    }
+    .code-run {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 1rem;
+      padding: 0.7rem 1rem; border-top: 1px solid var(--border);
+      font: 500 0.76rem var(--mono); color: var(--muted);
+    }
+    .code-run .ok { color: #a9b89a; font-weight: 700; }
+    .code-note { margin-top: 1rem; font-size: 0.8rem; color: var(--muted); }
+    .code-note a { color: var(--accent); }
+
+    /* Syntax colours (Prism tokens) tuned to the site palette */
+    .token.comment, .token.prolog { color: #6f6d66; font-style: italic; }
+    .token.keyword, .token.boolean.keyword { color: #d8c7a6; }
+    .token.string, .token.interpolation-string, .token.char { color: #a9b89a; }
+    .token.number, .token.boolean { color: #d4a58a; }
+    .token.class-name, .token.return-type, .token.namespace { color: #e6dcc4; }
+    .token.function { color: #c9c8bf; }
+    .token.attribute, .token.annotation, .token.atrule { color: #b9ad9c; }
+    .token.punctuation, .token.operator { color: #85837b; }
+    .token.key, .token.property { color: #d8c7a6; }
+
+    @media (max-width: 1024px) {
+      .code-showcase { grid-template-columns: minmax(0, 1fr); }
+      .code-tabs { flex-direction: row; overflow-x: auto; scrollbar-width: none; }
+      .code-tab { flex: 0 0 auto; }
+      .code-tab .desc { display: none; }
     }
 
     /* ─── PROJECTS ─── */
-    #projects { padding: 6rem 0; }
+    
     .projects-header {
       display: grid; grid-template-columns: 1fr 1fr;
       gap: 2rem; align-items: end; margin-bottom: 3rem;
@@ -378,13 +656,13 @@
     .proj-stack { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.4rem; }
     .stack-tag {
       padding: 0.3rem 0.75rem; border-radius: 999px;
-      background: var(--accent-dim); border: 1px solid rgba(88,225,203,0.22);
-      font-size: 0.75rem; color: #c8fff5;
+      background: var(--accent-dim); border: 1px solid rgba(var(--hi),0.22);
+      font-size: 0.75rem; color: var(--soft);
     }
     .artifact-box {
       margin-top: 1rem; padding: 1.1rem 1.2rem;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.07);
+      background: rgba(var(--ink),0.03);
+      border: 1px solid rgba(var(--ink),0.07);
       border-radius: 14px;
     }
     .artifact-box-title {
@@ -394,14 +672,14 @@
     .artifact-links { display: flex; flex-wrap: wrap; gap: 0.6rem; }
     .art-link {
       display: inline-block; padding: 0.45rem 1rem;
-      background: var(--accent-dim); border: 1px solid rgba(88,225,203,0.2);
-      border-radius: 8px; font-size: 0.8rem; color: #c8fff5;
+      background: var(--accent-dim); border: 1px solid rgba(var(--hi),0.2);
+      border-radius: 8px; font-size: 0.8rem; color: var(--soft);
       transition: background 0.25s, transform 0.2s;
     }
-    .art-link:hover { background: rgba(88,225,203,0.22); transform: translateY(-2px); }
+    .art-link:hover { background: rgba(var(--hi),0.22); transform: translateY(-2px); }
 
     /* ─── ARTIFACTS ─── */
-    #artifacts { background: var(--navy-mid); padding: 6rem 0; }
+    
     .artifacts-header {
       display: flex; justify-content: space-between; align-items: flex-end;
       gap: 2rem; margin-bottom: 3rem;
@@ -433,7 +711,7 @@
     }
 
     /* ─── STRENGTHS + CONTACT ─── */
-    #strengths { padding: 6rem 0; }
+    
     .sc-grid {
       display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
     }
@@ -443,15 +721,15 @@
     }
     .strength-item {
       padding: 1.2rem 1.4rem; border-radius: 14px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(var(--ink),0.03);
+      border: 1px solid rgba(var(--ink),0.06);
       margin-bottom: 1rem;
       transition: border-color 0.3s, background 0.3s;
     }
     .strength-item:last-child { margin-bottom: 0; }
     .strength-item:hover {
-      border-color: rgba(88,225,203,0.2);
-      background: rgba(88,225,203,0.04);
+      border-color: rgba(var(--hi),0.2);
+      background: rgba(var(--hi),0.04);
     }
     .strength-item h4 {
       font-family: Inter, Arial, Helvetica, sans-serif; font-size: 0.98rem;
@@ -460,12 +738,40 @@
     .strength-item p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
 
     .contact-card {
-      background: linear-gradient(135deg, rgba(88,225,203,0.1), rgba(126,167,255,0.06)), var(--panel);
-      border: 1px solid rgba(88,225,203,0.2);
+      background: linear-gradient(135deg, rgba(var(--hi),0.1), rgba(var(--hi2),0.06)), var(--panel);
+      border: 1px solid rgba(var(--hi),0.2);
       border-radius: 24px; padding: 2.5rem;
     }
-    .contact-list { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
-    .contact-item { display: flex; flex-direction: column; gap: 0.15rem; }
+    .contact-card { display: flex; flex-direction: column; }
+    .status-pill {
+      align-self: flex-start;
+      display: inline-flex; align-items: center; gap: 0.55rem;
+      padding: 0.4rem 0.85rem; margin-bottom: 1.2rem; border-radius: 999px;
+      background: rgba(var(--hi),0.08); border: 1px solid rgba(var(--hi),0.25);
+      font-size: 0.75rem; font-weight: 600; color: var(--soft);
+    }
+    .status-dot { position: relative; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+    .status-dot::after {
+      content: ''; position: absolute; inset: 0; border-radius: 50%;
+      background: var(--accent); animation: ping 1.8s cubic-bezier(0,0,0.2,1) infinite;
+    }
+    @keyframes ping { 75%, 100% { transform: scale(2.6); opacity: 0; } }
+    .contact-list { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.7rem; }
+    .contact-item {
+      display: flex; align-items: center; gap: 0.9rem;
+      padding: 0.85rem 1rem; border-radius: 14px;
+      background: rgba(var(--ink),0.03); border: 1px solid rgba(var(--ink),0.06);
+      transition: border-color 0.25s, background 0.25s;
+    }
+    .contact-item:hover { border-color: rgba(var(--hi),0.25); background: rgba(var(--hi),0.05); }
+    .contact-ico {
+      width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+      display: grid; place-items: center;
+      background: var(--accent-dim); border: 1px solid rgba(var(--hi),0.2); color: var(--accent);
+    }
+    .contact-ico svg { width: 17px; height: 17px; }
+    .contact-text { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
+    .contact-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: auto; padding-top: 1.8rem; }
     .contact-item strong {
       font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase;
       color: var(--accent); font-weight: 600;
@@ -479,7 +785,7 @@
 
     /* ─── FOOTER ─── */
     footer {
-      border-top: 1px solid rgba(255,255,255,0.06);
+      border-top: 1px solid rgba(var(--ink),0.06);
       padding: 2rem 0;
     }
     .footer-inner {
@@ -488,6 +794,48 @@
     }
     .footer-inner p { font-size: 0.82rem; color: var(--muted); }
     .footer-inner span { color: var(--accent); }
+
+    /* ─── PAGE TRANSITION CURTAIN ─── */
+    .curtain { position: fixed; inset: 0; z-index: 950; visibility: hidden; }
+    .curtain.on { visibility: visible; }
+    .curtain-layer { position: absolute; inset: 0; clip-path: inset(100% 0% 0% 0%); }
+    .curtain-accent { background: linear-gradient(120deg, var(--accent), var(--accent-2)); }
+    .curtain-main {
+      background:
+        linear-gradient(rgba(var(--hi),0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(var(--hi),0.035) 1px, transparent 1px),
+        var(--navy);
+      background-size: 48px 48px, 48px 48px, auto;
+      display: grid; place-items: center;
+    }
+    .curtain-label { text-align: center; opacity: 0; }
+    .curtain-num {
+      display: block; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.3em;
+      color: var(--accent); margin-bottom: 0.6rem;
+    }
+    .curtain-title {
+      display: block; font-family: var(--display);
+      font-size: clamp(2.4rem, 7vw, 4.8rem); font-weight: 600;
+      letter-spacing: -0.035em; line-height: 1;
+      background: linear-gradient(90deg, var(--text), #c9c8bf);
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    /* ─── MOTION EXTRAS ─── */
+    .hero-h1 .w { display: inline-block; will-change: transform, opacity, filter; }
+    .hero-h1 em .w {
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    /* Pointer-following spotlight on cards */
+    .spot { position: relative; isolation: isolate; }
+    .spot::before {
+      content: ''; position: absolute; inset: 0; border-radius: inherit; z-index: -1;
+      background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(var(--hi),0.10), transparent 45%);
+      opacity: 0; transition: opacity 0.35s; pointer-events: none;
+    }
+    .spot:hover::before { opacity: 1; }
 
     /* ─── SCROLL REVEAL ─── */
     .reveal {
@@ -556,7 +904,17 @@
       .artifact-grid     { grid-template-columns: 1fr; }
       .artifacts-header  { flex-direction: column; align-items: flex-start; gap: 1rem; }
       .hero-geo          { display: none; }
-      .sec               { padding: 5rem 0; }
+      .sec               { padding: 4.5rem 0; }
+      .cmdk-trigger .cmdk-label { display: none; }
+      .nav a             { padding: 0.4rem 0.6rem; }
+      .xp-header         { grid-template-columns: 1fr; gap: 1rem; }
+      .xp-item           { grid-template-columns: 1fr; gap: 0.6rem; }
+      .xp-when           { padding-top: 0; }
+      .xp-dot            { top: 0.35rem; }
+    }
+
+    @media (min-width: 769px) and (max-width: 900px) {
+      .brand-name { display: none; }
     }
 
     /* ─── RESPONSIVE — Tablet (≤768px) ─── */
@@ -567,7 +925,7 @@
         display: none;
         position: absolute; top: 72px; left: 0; right: 0;
         flex-direction: column; gap: 0;
-        background: rgba(6,16,28,0.97);
+        background: rgba(20,20,19,0.97);
         backdrop-filter: blur(20px);
         border-bottom: 1px solid var(--border);
         padding: 0.5rem 0 1rem;
@@ -575,16 +933,21 @@
       }
       .nav.open { display: flex; }
       .nav a {
-        padding: 0.85rem 1.6rem;
+        padding: 0.85rem 1.6rem; border-radius: 0;
         font-size: 0.95rem;
-        border-bottom: 1px solid rgba(255,255,255,0.04);
+        border-bottom: 1px solid rgba(var(--ink),0.04);
       }
-      .nav a::after { display: none; }
-      .nav a:last-child { border-bottom: none; }
+      .nav a.active { color: var(--accent); }
+      .nav a:last-of-type { border-bottom: none; }
+      .nav-pill, .nav-indicator { display: none; }
+      .cmdk-trigger .cmdk-label, .cmdk-trigger kbd { display: none; }
+      .cmdk-trigger { width: 38px; padding: 0; justify-content: center; }
+      .cmdk-panel { margin-top: 10vh; }
+      .cmdk-foot { display: none; }
 
       /* Hero */
       #hero { padding: 4rem 0 5rem; min-height: auto; }
-      .hero-h1 { font-size: clamp(2.2rem, 7vw, 3.2rem); }
+      .hero-h1 { font-size: clamp(2.3rem, 7.2vw, 3.3rem); }
       .hero-copy { font-size: 0.95rem; }
       .hero-actions { flex-direction: column; }
       .hero-actions .btn { width: 100%; text-align: center; }
@@ -595,7 +958,9 @@
       /* Sections */
       .sec { padding: 4rem 0; }
       .about-card, .skills-card { padding: 1.8rem; border-radius: 18px; }
-      .project-card, .artifact-card { padding: 1.6rem; border-radius: 18px; }
+      .project-card, .artifact-card, .xp-card { padding: 1.6rem; border-radius: 18px; }
+      .xp-timeline { padding-left: 1.8rem; }
+      .xp-dot { left: calc(-1.8rem + 1px); }
       .strengths-card, .contact-card { padding: 1.8rem; border-radius: 18px; }
 
       /* Footer */
@@ -612,14 +977,14 @@
 
       /* Hero */
       #hero { padding: 3rem 0 4.5rem; }
-      .hero-h1 { font-size: clamp(1.9rem, 8vw, 2.4rem); letter-spacing: -0.02em; }
+      .hero-h1 { font-size: clamp(2rem, 8.6vw, 2.5rem); letter-spacing: -0.03em; }
       .hero-tag { font-size: 0.65rem; letter-spacing: 0.16em; }
       .hero-copy { font-size: 0.9rem; }
       .glass-panel { padding: 1.4rem; border-radius: 16px; }
       .hero-scroll { display: none; }
 
       /* Section headings */
-      .sec-h2 { font-size: clamp(1.6rem, 6vw, 2rem); }
+      .sec-h2 { font-size: clamp(1.7rem, 6.5vw, 2.1rem); }
       .sec { padding: 3.5rem 0; }
 
       /* About */
@@ -649,11 +1014,64 @@
     /* ─── RESPONSIVE — Very small (≤360px) ─── */
     @media (max-width: 360px) {
       .container { width: calc(100% - 20px); }
-      .hero-h1 { font-size: 1.75rem; }
-      .sec-h2  { font-size: 1.5rem; }
+      .hero-h1 { font-size: 1.85rem; }
+      .sec-h2  { font-size: 1.55rem; }
       .brand-name { display: none; }
     }
-  </style>
+  
+    /* ─── SECTION TONES: the four palette colours ─── */
+    .tone-dark  { background: #141413; }
+    .tone-dark2 { background: #1b1b19; }
+    .tone-stone-1 { background: #c9c8bf; }
+    .tone-stone-2 { background: #bdbbb2; }
+    .tone-stone-3 { background: #afaca1; }
+    /* Light sections flip to dark ink. Tokens built from --ink are re-declared
+       here because custom properties resolve where they are defined. */
+    .tone-stone-1, .tone-stone-2, .tone-stone-3 {
+      --ink: 20,20,19;
+      --hi: 20,20,19;
+      --hi2: 20,20,19;
+      --text: #141413;
+      --muted: #3f3e39;
+      --accent: #3a3832;
+      --accent-2: #6b695f;
+      --soft: #141413;
+      --on-accent: #edece7;
+      --panel: rgba(20,20,19,0.05);
+      --panel-hover: rgba(20,20,19,0.08);
+      --border: rgba(20,20,19,0.13);
+      --border-accent: rgba(20,20,19,0.38);
+      --accent-dim: rgba(20,20,19,0.07);
+      --accent-2-dim: rgba(20,20,19,0.05);
+      --shadow: 0 20px 50px rgba(20,20,19,0.18);
+      color: var(--text);
+    }
+    .tone-stone-1 .btn-primary, .tone-stone-2 .btn-primary, .tone-stone-3 .btn-primary {
+      background: #141413; box-shadow: 0 8px 22px rgba(20,20,19,0.25);
+    }
+    /* The code window stays dark inside a light section */
+    .code-window {
+      --ink: 255,255,255; --hi: 201,200,191;
+      --text: #edece7; --muted: #97958c; --accent: #c9c8bf;
+      --border: rgba(255,255,255,0.09); --border-accent: rgba(201,200,191,0.28);
+      color: var(--text);
+    }
+    /* Cursor stays visible on both dark and light sections */
+    .cursor, .cursor-ring { mix-blend-mode: difference; }
+
+    /* ─── TYPE: Space Mono for labels, captions and technical details ─── */
+    .hero-tag, .sec-label, .panel-tag, .proj-kicker, .art-tag, .cert-label,
+    .xp-kind, .facts dt, .artifact-box-title, .skill-group h4, .cmdk-group,
+    .curtain-num, .contact-item strong, .metric > span, .status-pill {
+      font-family: var(--mono); letter-spacing: 0.08em;
+    }
+    .metric > span, .status-pill { letter-spacing: 0.02em; }
+    kbd, .brand-box { font-family: var(--mono); }
+    .metric strong, .xp-card h3, .project-card h3, .artifact-card h3,
+    .glass-panel h3, .strength-item h4 {
+      font-family: var(--display); letter-spacing: -0.01em;
+    }
+</style>
 </head>
 <body>
 
@@ -674,18 +1092,59 @@
       <span class="brand-name">Jefrey Abayon</span>
     </a>
     <nav class="nav" id="mainNav">
+      <span class="nav-pill" id="navPill" aria-hidden="true"></span>
       <a href="#about">About</a>
-      <a href="#about">Skills</a>
+      <a href="#skills">Skills</a>
+      <a href="#experience">Experience</a>
       <a href="#projects">Projects</a>
       <a href="#artifacts">Artifacts</a>
       <a href="#strengths">Strengths</a>
-      <a href="#strengths">Contact</a>
+      <a href="#contact">Contact</a>
+      <span class="nav-indicator" id="navIndicator" aria-hidden="true"></span>
     </nav>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
-      <span></span><span></span><span></span>
-    </button>
+    <div class="nav-actions">
+      <button class="cmdk-trigger" id="cmdkTrigger" aria-label="Open command palette" aria-haspopup="dialog">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <span class="cmdk-label">Search</span>
+        <kbd id="cmdkKbd">Ctrl K</kbd>
+      </button>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mainNav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
+  <div class="scroll-progress" id="scrollProgress"></div>
 </header>
+
+<!-- ─── PAGE TRANSITION CURTAIN ─── -->
+<div class="curtain" id="curtain" aria-hidden="true">
+  <div class="curtain-layer curtain-accent"></div>
+  <div class="curtain-layer curtain-main">
+    <div class="curtain-label">
+      <span class="curtain-num" id="curtainNum"></span>
+      <span class="curtain-title" id="curtainTitle"></span>
+    </div>
+  </div>
+</div>
+
+<!-- ─── COMMAND PALETTE ─── -->
+<div class="cmdk" id="cmdk" hidden>
+  <div class="cmdk-backdrop" id="cmdkBackdrop"></div>
+  <div class="cmdk-panel" role="dialog" aria-modal="true" aria-label="Command palette">
+    <div class="cmdk-search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input class="cmdk-input" id="cmdkInput" type="text" placeholder="Jump to a section or run an action…"
+             autocomplete="off" spellcheck="false" role="combobox" aria-expanded="true" aria-controls="cmdkList" />
+      <kbd>Esc</kbd>
+    </div>
+    <ul class="cmdk-list" id="cmdkList" role="listbox"></ul>
+    <div class="cmdk-foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+      <span><kbd>↵</kbd> open</span>
+      <span><kbd>Esc</kbd> close</span>
+    </div>
+  </div>
+</div>
 
 <!-- ─── HERO ─── -->
 <section id="hero">
@@ -694,47 +1153,48 @@
   <!-- Geometric decoration -->
   <div class="hero-geo">
     <svg viewBox="0 0 480 480" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="240" cy="240" r="220" stroke="rgba(88,225,203,0.07)" stroke-width="1"/>
-      <circle cx="240" cy="240" r="170" stroke="rgba(88,225,203,0.06)" stroke-width="1"/>
-      <circle cx="240" cy="240" r="120" stroke="rgba(88,225,203,0.08)" stroke-width="1"/>
-      <circle cx="240" cy="240" r="70" stroke="rgba(88,225,203,0.05)" stroke-width="1" stroke-dasharray="4 6"/>
-      <line x1="20" y1="240" x2="460" y2="240" stroke="rgba(88,225,203,0.05)" stroke-width="1"/>
-      <line x1="240" y1="20" x2="240" y2="460" stroke="rgba(88,225,203,0.05)" stroke-width="1"/>
-      <line x1="84" y1="84" x2="396" y2="396" stroke="rgba(88,225,203,0.04)" stroke-width="1"/>
-      <line x1="396" y1="84" x2="84" y2="396" stroke="rgba(88,225,203,0.04)" stroke-width="1"/>
-      <circle cx="240" cy="240" r="6" fill="rgba(88,225,203,0.25)"/>
-      <circle cx="240" cy="70" r="3" fill="rgba(88,225,203,0.2)"/>
-      <circle cx="410" cy="240" r="3" fill="rgba(126,167,255,0.2)"/>
-      <circle cx="240" cy="410" r="3" fill="rgba(88,225,203,0.2)"/>
-      <circle cx="70" cy="240" r="3" fill="rgba(126,167,255,0.2)"/>
+      <circle cx="240" cy="240" r="220" stroke="rgba(201,200,191,0.07)" stroke-width="1"/>
+      <circle cx="240" cy="240" r="170" stroke="rgba(201,200,191,0.06)" stroke-width="1"/>
+      <circle cx="240" cy="240" r="120" stroke="rgba(201,200,191,0.08)" stroke-width="1"/>
+      <circle cx="240" cy="240" r="70" stroke="rgba(201,200,191,0.05)" stroke-width="1" stroke-dasharray="4 6"/>
+      <line x1="20" y1="240" x2="460" y2="240" stroke="rgba(201,200,191,0.05)" stroke-width="1"/>
+      <line x1="240" y1="20" x2="240" y2="460" stroke="rgba(201,200,191,0.05)" stroke-width="1"/>
+      <line x1="84" y1="84" x2="396" y2="396" stroke="rgba(201,200,191,0.04)" stroke-width="1"/>
+      <line x1="396" y1="84" x2="84" y2="396" stroke="rgba(201,200,191,0.04)" stroke-width="1"/>
+      <circle cx="240" cy="240" r="6" fill="rgba(201,200,191,0.25)"/>
+      <circle cx="240" cy="70" r="3" fill="rgba(201,200,191,0.2)"/>
+      <circle cx="410" cy="240" r="3" fill="rgba(175,172,161,0.2)"/>
+      <circle cx="240" cy="410" r="3" fill="rgba(201,200,191,0.2)"/>
+      <circle cx="70" cy="240" r="3" fill="rgba(175,172,161,0.2)"/>
     </svg>
   </div>
 
   <div class="container">
     <div class="hero-inner">
       <div class="hero-left">
-        <div class="hero-tag">Manual QA Engineer · 3 Years Experience</div>
+        <div class="hero-tag">QA Engineer · Manual &amp; API Automation</div>
         <h1 class="hero-h1">
           I test complex systems with
           <em>clarity, structure,<br>and confidence.</em>
         </h1>
         <p class="hero-copy">
-          I specialize in manual QA for payroll, workforce management, and API-driven systems.
-          My focus is validating complex business logic, reducing regression risks,
-          and ensuring teams ship stable, high-quality features with confidence.
+          I combine thorough manual testing with API automation, using Claude Code as an agentic AI
+          assistant to build and maintain test suites faster. With a background in payroll and
+          workforce management systems, I focus on validating complex business logic, reducing
+          regression risks, and helping teams ship stable features with confidence.
         </p>
         <div class="hero-actions">
-          <a href="#projects" class="btn btn-primary">Explore Projects</a>
-          <a href="#strengths" class="btn btn-secondary">Let's Connect</a>
+          <a href="#projects" class="btn btn-primary magnetic">Explore Projects</a>
+          <a href="#contact" class="btn btn-secondary magnetic">Let's Connect</a>
         </div>
         <div class="hero-metrics">
           <div class="metric">
-            <strong>3 Years</strong>
+            <strong>3+ Years</strong>
             <span>QA Experience</span>
           </div>
           <div class="metric">
-            <strong>API + UI</strong>
-            <span>Validation Focus</span>
+            <strong><span data-count="2000">2,000</span>+</strong>
+            <span>Automated API Tests</span>
           </div>
           <div class="metric">
             <strong>Payroll / HR</strong>
@@ -756,7 +1216,7 @@
         </div>
         <div class="glass-panel">
           <span class="panel-tag">Current Focus</span>
-          <p>Manual QA roles involving API testing, system validation, regression testing, and business-critical workflows.</p>
+          <p>QA roles that blend manual and API automation testing, including AI-assisted automation, regression, and release validation for business-critical workflows.</p>
         </div>
       </div>
     </div>
@@ -769,14 +1229,20 @@
 </section>
 
 <!-- ─── ABOUT + SKILLS ─── -->
-<section id="about" class="sec">
+<section id="about" class="sec tone-stone-1">
   <div class="container">
     <div class="about-grid">
       <div class="about-card reveal-left">
         <div class="sec-label">About Me</div>
         <h2 class="sec-h2">Testing beyond<br>the <em>happy path.</em></h2>
-        <p>I am a QA tester with 3 years of experience working on HR and payroll systems. My day-to-day work includes validating API responses, checking business rules, creating structured test coverage, and making sure changes do not introduce unexpected issues in related modules.</p>
+        <p>I am a QA engineer with 3+ years of experience, most of it on HR and payroll systems. My day-to-day work includes validating API responses, checking business rules, creating structured test coverage, and making sure changes do not introduce unexpected issues in related modules.</p>
         <p>I enjoy turning complex requirements into practical test scenarios and helping teams catch issues early before they affect production users.</p>
+        <dl class="facts">
+          <div><dt>Currently</dt><dd>QA Engineer · Legadel</dd></div>
+          <div><dt>Work setup</dt><dd>Full-time remote</dd></div>
+          <div><dt>Domain</dt><dd>Payroll · HRIS</dd></div>
+          <div><dt>Based in</dt><dd>General Santos, PH</dd></div>
+        </dl>
         <a href="jefrey-abayon-cv-2026.pdf" download class="btn btn-primary" style="margin-top:1.6rem;display:inline-block;">
           Download Resume
         </a>
@@ -787,7 +1253,7 @@
         </div>
       </div>
 
-      <div class="skills-card reveal-right">
+      <div id="skills" class="skills-card reveal-right">
         <div class="sec-label">Skills &amp; Tools</div>
         <h2 class="sec-h2" style="margin-bottom:1.8rem">Tools and areas<br>I <em>work with</em></h2>
         <div class="skill-group">
@@ -809,6 +1275,10 @@
             <span class="chip">JIRA</span>
             <span class="chip">JMeter</span>
             <span class="chip">SQL</span>
+            <span class="chip">C# / .NET</span>
+            <span class="chip">NUnit</span>
+            <span class="chip">RestSharp</span>
+            <span class="chip">Claude Code (Agentic AI)</span>
           </div>
         </div>
         <div class="skill-group">
@@ -826,8 +1296,428 @@
   </div>
 </section>
 
+<!-- ─── EXPERIENCE ─── -->
+<section id="experience" class="sec tone-dark">
+  <div class="container">
+    <div class="xp-header">
+      <div class="reveal-left">
+        <div class="sec-label">Experience</div>
+        <h2 class="sec-h2">Where I've built<br>my <em>QA foundation</em></h2>
+      </div>
+      <p class="sec-p reveal-right" style="margin:0">Hands-on QA work in payroll and HR systems and, now, freelance API automation, backed by formal testing certification and an IT degree.</p>
+    </div>
+
+    <div class="xp-timeline" id="xpTimeline">
+      <div class="xp-track"></div>
+      <div class="xp-fill" id="xpFill"></div>
+
+      <article class="xp-item reveal">
+        <span class="xp-dot"></span>
+        <div class="xp-when">
+          <span class="xp-date">Jun 2026 – Present</span>
+          <span class="xp-kind">Full-time Freelance · Remote</span>
+        </div>
+        <div class="xp-card">
+          <h3>QA Engineer</h3>
+          <div class="xp-org">Legadel</div>
+          <p style="font-size:0.8rem;font-style:italic;margin-bottom:0.4rem">System and project details are confidential under client agreement.</p>
+          <ul class="proj-list">
+            <li>Built and maintain a .NET API automation framework with 2,000+ automated tests across 10 business areas</li>
+            <li>Designed reusable test data builders, fixtures, and automatic cleanup for reliable, repeatable runs</li>
+            <li>Use Claude Code as an agentic AI assistant to speed up test creation and maintenance</li>
+            <li>Perform manual, regression, and API testing across releases</li>
+            <li>Create test cases and keep QA documentation up to date</li>
+            <li>Report defects and validate releases before they ship</li>
+          </ul>
+          <a href="#automation" class="art-link" style="margin-bottom:1.2rem">See sample automation code →</a>
+          <div class="proj-stack">
+            <span class="stack-tag">C# / .NET</span>
+            <span class="stack-tag">NUnit</span>
+            <span class="stack-tag">RestSharp</span>
+            <span class="stack-tag">Bogus</span>
+            <span class="stack-tag">Claude Code</span>
+            <span class="stack-tag">API Automation</span>
+            <span class="stack-tag">Manual &amp; Regression</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="xp-item reveal">
+        <span class="xp-dot"></span>
+        <div class="xp-when">
+          <span class="xp-date">Mar 2023 – Mar 2026</span>
+          <span class="xp-kind">Full-time · 3 yrs</span>
+        </div>
+        <div class="xp-card">
+          <h3>JR QA Engineer</h3>
+          <div class="xp-org">Sprout Solutions Phil., Inc.</div>
+          <ul class="proj-list">
+            <li>Executed end-to-end manual, system, regression, and smoke testing across Payroll and HR modules</li>
+            <li>Designed BDD-based test cases with full traceability across positive, negative, and edge scenarios</li>
+            <li>Tested APIs with Postman and validated data integrity with SQL</li>
+            <li>Logged and tracked defects in Jira, working with developers through to resolution</li>
+            <li>Supported UAT, release verification, and production testing</li>
+            <li>Used AI tools to streamline validation and reduce manual effort</li>
+          </ul>
+          <div class="xp-highlight">
+            <strong>Highlight · Salary History feature</strong>
+            <p>Validated effectivity-based salary changes, promotions, and adjustments so payroll computed accurately across historical and current periods, including earnings, deductions, statutory contributions, and overtime.</p>
+          </div>
+          <div class="proj-stack">
+            <span class="stack-tag">Payroll / HRIS</span>
+            <span class="stack-tag">Postman</span>
+            <span class="stack-tag">SQL</span>
+            <span class="stack-tag">Jira &amp; Zephyr</span>
+            <span class="stack-tag">BDD / Gherkin</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="xp-item reveal">
+        <span class="xp-dot"></span>
+        <div class="xp-when">
+          <span class="xp-date">Dec 2024</span>
+          <span class="xp-kind">Certification</span>
+        </div>
+        <div class="xp-card">
+          <h3>ISTQB Certified Tester – Foundation Level</h3>
+          <div class="xp-org">ASTQB – ISTQB in the U.S.</div>
+          <p>Credential ID 24-CTFL-03807. <a href="ctfl-certificate.jpg" target="_blank" style="color:var(--accent)">View certificate →</a></p>
+        </div>
+      </article>
+
+      <article class="xp-item reveal">
+        <span class="xp-dot"></span>
+        <div class="xp-when">
+          <span class="xp-date">2017 – 2021</span>
+          <span class="xp-kind">Education</span>
+        </div>
+        <div class="xp-card">
+          <h3>BS Information Technology</h3>
+          <div class="xp-org">Goldenstate College</div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ─── AUTOMATION SAMPLES ─── -->
+<section id="automation" class="sec tone-stone-2">
+  <div class="container">
+    <div class="xp-header">
+      <div class="reveal-left">
+        <div class="sec-label">Automation Samples</div>
+        <h2 class="sec-h2">How I write<br><em>API automation</em></h2>
+      </div>
+      <p class="sec-p reveal-right" style="margin:0">Client code is confidential, so these are original samples built with the same stack and patterns I use at work, written against the public Restful-Booker practice API.</p>
+    </div>
+
+    <div class="code-showcase reveal">
+      <div class="code-tabs" id="codeTabs" role="tablist" aria-label="Sample files">
+        <span class="code-tab-hl" id="codeTabHl" aria-hidden="true"></span>
+        <button class="code-tab" role="tab" data-src="code-tests" data-lang="csharp" data-path="BookingApi.Tests/BookingTests.cs">
+          <span class="file">BookingTests.cs</span>
+          <span class="desc">Positive, negative, data-driven, and security checks with clear Arrange/Act/Assert structure.</span>
+        </button>
+        <button class="code-tab" role="tab" data-src="code-builder" data-lang="csharp" data-path="BookingApi.Tests/Builders/BookingBuilder.cs">
+          <span class="file">BookingBuilder.cs</span>
+          <span class="desc">Fluent test-data builder with Bogus, so every run uses fresh, realistic data.</span>
+        </button>
+        <button class="code-tab" role="tab" data-src="code-base" data-lang="csharp" data-path="BookingApi.Tests/ApiTestBase.cs">
+          <span class="file">ApiTestBase.cs</span>
+          <span class="desc">Shared client, cached auth token, and automatic cleanup of created data.</span>
+        </button>
+        <button class="code-tab" role="tab" data-src="code-ci" data-lang="yaml" data-path=".github/workflows/api-tests.yml">
+          <span class="file">api-tests.yml</span>
+          <span class="desc">CI pipeline: smoke tests first, full regression next, nightly schedule, results uploaded.</span>
+        </button>
+      </div>
+
+      <div>
+        <div class="code-window">
+          <div class="code-bar">
+            <div class="code-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+            <span class="code-path" id="codePath"></span>
+            <button class="code-copy" id="codeCopy" type="button">Copy</button>
+          </div>
+          <div class="code-body" id="codeBody" role="tabpanel" tabindex="0"><pre><code id="codeEl"></code></pre></div>
+          <div class="code-run">
+            <span>$ dotnet test</span>
+            <span class="ok">✓ Passed: 6</span>
+            <span>Failed: 0</span>
+            <span>Total: 6</span>
+            <span>· live run against Restful-Booker</span>
+          </div>
+        </div>
+        <p class="code-note">Practice API: <a href="https://restful-booker.herokuapp.com/apidoc/index.html" target="_blank" rel="noopener">Restful-Booker docs ↗</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="text/plain" id="code-tests">
+using System.Net;
+using BookingApi.Tests.Builders;
+using NUnit.Framework;
+using RestSharp;
+
+namespace BookingApi.Tests;
+
+[TestFixture]
+[Category("Regression")]
+public class BookingTests : ApiTestBase
+{
+    [Test]
+    [Category("Smoke")]
+    public async Task CreateBooking_WithValidPayload_ReturnsSavedBooking()
+    {
+        var payload = new BookingBuilder().Build();
+
+        var response = await CreateBookingAsync(payload);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Data!.BookingId, Is.GreaterThan(0));
+            Assert.That(response.Data.Booking, Is.EqualTo(payload));
+        });
+    }
+
+    [Test]
+    public async Task GetBooking_AfterCreate_ReturnsSameData()
+    {
+        var payload = new BookingBuilder().WithDeposit(false).Build();
+        var created = await CreateBookingAsync(payload);
+
+        var request = new RestRequest($"/booking/{created.Data!.BookingId}");
+        var response = await Client.ExecuteAsync<Booking>(request);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Data, Is.EqualTo(payload));
+        });
+    }
+
+    [TestCase("Breakfast")]
+    [TestCase("Airport transfer")]
+    public async Task PartialUpdate_AdditionalNeeds_ChangesOnlyThatField(string needs)
+    {
+        var original = new BookingBuilder().Build();
+        var created = await CreateBookingAsync(original);
+
+        var request = new RestRequest($"/booking/{created.Data!.BookingId}", Method.Patch)
+            .AddHeader("Cookie", $"token={await GetTokenAsync()}")
+            .AddJsonBody(new { additionalneeds = needs });
+        var response = await Client.ExecuteAsync<Booking>(request);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Data, Is.EqualTo(original with { AdditionalNeeds = needs }));
+        });
+    }
+
+    [Test]
+    [Category("Security")]
+    public async Task UpdateBooking_WithoutToken_IsForbidden()
+    {
+        var created = await CreateBookingAsync(new BookingBuilder().Build());
+
+        var request = new RestRequest($"/booking/{created.Data!.BookingId}", Method.Put)
+            .AddJsonBody(new BookingBuilder().Build());
+        var response = await Client.ExecuteAsync(request);
+
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Forbidden));
+    }
+
+    [Test]
+    public async Task GetBooking_ThatDoesNotExist_ReturnsNotFound()
+    {
+        var response = await Client.ExecuteAsync(new RestRequest("/booking/999999999"));
+
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+    }
+}
+</script>
+<script type="text/plain" id="code-builder">
+using System.Text.Json.Serialization;
+using Bogus;
+
+namespace BookingApi.Tests.Builders;
+
+public record BookingDates(
+    [property: JsonPropertyName("checkin")] string CheckIn,
+    [property: JsonPropertyName("checkout")] string CheckOut);
+
+public record Booking(
+    [property: JsonPropertyName("firstname")] string FirstName,
+    [property: JsonPropertyName("lastname")] string LastName,
+    [property: JsonPropertyName("totalprice")] int TotalPrice,
+    [property: JsonPropertyName("depositpaid")] bool DepositPaid,
+    [property: JsonPropertyName("bookingdates")] BookingDates BookingDates,
+    [property: JsonPropertyName("additionalneeds")] string AdditionalNeeds);
+
+public record CreatedBooking(
+    [property: JsonPropertyName("bookingid")] int BookingId,
+    [property: JsonPropertyName("booking")] Booking Booking);
+
+/// <summary>
+/// Builds realistic, randomized bookings so every test run uses fresh data.
+/// Override only the fields a test actually cares about.
+/// </summary>
+public class BookingBuilder
+{
+    private static readonly Faker Faker = new();
+    private Booking _booking;
+
+    public BookingBuilder()
+    {
+        var checkIn = Faker.Date.SoonDateOnly(30);
+        _booking = new Booking(
+            FirstName: Faker.Name.FirstName(),
+            LastName: Faker.Name.LastName(),
+            TotalPrice: Faker.Random.Int(50, 2000),
+            DepositPaid: Faker.Random.Bool(),
+            BookingDates: new BookingDates(
+                checkIn.ToString("yyyy-MM-dd"),
+                checkIn.AddDays(Faker.Random.Int(1, 14)).ToString("yyyy-MM-dd")),
+            AdditionalNeeds: Faker.PickRandom("Breakfast", "Late checkout", "Parking"));
+    }
+
+    public BookingBuilder WithGuest(string firstName, string lastName)
+    {
+        _booking = _booking with { FirstName = firstName, LastName = lastName };
+        return this;
+    }
+
+    public BookingBuilder WithDeposit(bool paid)
+    {
+        _booking = _booking with { DepositPaid = paid };
+        return this;
+    }
+
+    public BookingBuilder WithStay(DateOnly checkIn, int nights)
+    {
+        _booking = _booking with
+        {
+            BookingDates = new BookingDates(
+                checkIn.ToString("yyyy-MM-dd"),
+                checkIn.AddDays(nights).ToString("yyyy-MM-dd"))
+        };
+        return this;
+    }
+
+    public Booking Build() => _booking;
+}
+</script>
+<script type="text/plain" id="code-base">
+using System.Net;
+using System.Text.Json.Serialization;
+using BookingApi.Tests.Builders;
+using NUnit.Framework;
+using RestSharp;
+
+namespace BookingApi.Tests;
+
+/// <summary>
+/// Shared setup for every API test: one HTTP client, a cached auth token,
+/// and automatic cleanup of any booking a test creates.
+/// </summary>
+public abstract class ApiTestBase
+{
+    protected static readonly RestClient Client = new(new RestClientOptions(
+        TestContext.Parameters.Get("BaseUrl", "https://restful-booker.herokuapp.com")));
+
+    private static string? _token;
+    private readonly List<int> _createdIds = new();
+
+    // The API replies 418 "I'm a Teapot" unless Accept is exactly application/json
+    static ApiTestBase() => Client.AddDefaultHeader("Accept", "application/json");
+
+    protected static async Task<string> GetTokenAsync()
+    {
+        if (_token is not null) return _token;
+
+        // Public demo credentials from the Restful-Booker docs; real suites read these from RunSettings/CI secrets
+        var request = new RestRequest("/auth", Method.Post).AddJsonBody(new
+        {
+            username = TestContext.Parameters.Get("ApiUser", "admin"),
+            password = TestContext.Parameters.Get("ApiPassword", "password123"),
+        });
+        var response = await Client.ExecuteAsync<AuthResponse>(request);
+
+        Assert.That(response.Data?.Token, Is.Not.Null.And.Not.Empty, "Auth failed: check RunSettings");
+        return _token = response.Data!.Token;
+    }
+
+    protected async Task<RestResponse<CreatedBooking>> CreateBookingAsync(Booking payload)
+    {
+        var request = new RestRequest("/booking", Method.Post).AddJsonBody(payload);
+        var response = await Client.ExecuteAsync<CreatedBooking>(request);
+
+        if (response.Data is { BookingId: > 0 } created) _createdIds.Add(created.BookingId);
+        return response;
+    }
+
+    [TearDown]
+    public async Task CleanUpCreatedBookings()
+    {
+        if (_createdIds.Count == 0) return;
+        var token = await GetTokenAsync();
+
+        foreach (var id in _createdIds)
+        {
+            var request = new RestRequest($"/booking/{id}", Method.Delete)
+                .AddHeader("Cookie", $"token={token}");
+            var response = await Client.ExecuteAsync(request);
+
+            // Restful-Booker answers a successful delete with 201 Created
+            if (response.StatusCode != HttpStatusCode.Created)
+                TestContext.Progress.WriteLine($"Cleanup failed for booking {id}: {(int)response.StatusCode}");
+        }
+        _createdIds.Clear();
+    }
+}
+
+public record AuthResponse([property: JsonPropertyName("token")] string Token);
+</script>
+<script type="text/plain" id="code-ci">
+name: API Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: '0 22 * * 1-5'   # nightly regression, weekdays
+
+jobs:
+  api-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Smoke tests (fail fast)
+        run: dotnet test --filter "Category=Smoke" --logger "trx;LogFileName=smoke.trx"
+
+      - name: Full regression
+        run: dotnet test --filter "Category=Regression" --logger "trx;LogFileName=regression.trx"
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: '**/TestResults/*.trx'
+</script>
+
 <!-- ─── PROJECTS ─── -->
-<section id="projects" class="sec" style="background:var(--navy-mid)">
+<section id="projects" class="sec tone-dark2">
   <div class="container">
     <div class="projects-header">
       <div class="reveal-left">
@@ -892,7 +1782,7 @@
 </section>
 
 <!-- ─── ARTIFACTS ─── -->
-<section id="artifacts" class="sec">
+<section id="artifacts" class="sec tone-stone-3">
   <div class="container">
     <div class="artifacts-header">
       <div class="reveal-left">
@@ -940,7 +1830,7 @@
 </section>
 
 <!-- ─── STRENGTHS + CONTACT ─── -->
-<section id="strengths" class="sec" style="background:var(--navy-mid)">
+<section id="strengths" class="sec tone-dark">
   <div class="container">
     <div class="sc-grid">
       <div class="strengths-card reveal-left">
@@ -963,24 +1853,35 @@
       <div id="contact" class="contact-card reveal-right">
         <div class="sec-label">Contact</div>
         <h2 class="sec-h2">Let's <em>connect</em></h2>
+        <div class="status-pill" style="margin-top:1rem"><span class="status-dot"></span>Open to QA opportunities</div>
         <p>I'm open to QA opportunities involving manual testing, API validation, regression testing, and business-critical systems.</p>
         <div class="contact-list">
           <div class="contact-item">
-            <strong>Email</strong>
-            <a href="mailto:jeffreyabayon@gmail.com">jeffreyabayon@gmail.com</a>
+            <div class="contact-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></div>
+            <div class="contact-text">
+              <strong>Email</strong>
+              <a href="mailto:jeffreyabayon@gmail.com">jeffreyabayon@gmail.com</a>
+            </div>
           </div>
           <div class="contact-item">
-            <strong>LinkedIn</strong>
-            <a href="https://www.linkedin.com/in/jefrey-abayon-ctfl-302aa6289/" target="_blank" rel="noopener">linkedin.com/in/jefrey-abayon-ctfl</a>
+            <div class="contact-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"/></svg></div>
+            <div class="contact-text">
+              <strong>LinkedIn</strong>
+              <a href="https://www.linkedin.com/in/jefrey-abayon-ctfl-302aa6289/" target="_blank" rel="noopener">linkedin.com/in/jefrey-abayon-ctfl</a>
+            </div>
           </div>
           <div class="contact-item">
-            <strong>Location</strong>
-            <span>General Santos City, Philippines</span>
+            <div class="contact-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></div>
+            <div class="contact-text">
+              <strong>Location</strong>
+              <span>General Santos City, Philippines · Remote-ready</span>
+            </div>
           </div>
         </div>
-        <a href="jefrey-abayon-cv-2026.pdf" download class="btn btn-primary" style="margin-top:1.8rem;display:inline-block;">
-          Download Resume
-        </a>
+        <div class="contact-actions">
+          <a href="mailto:jeffreyabayon@gmail.com" class="btn btn-primary magnetic">Email Me</a>
+          <a href="jefrey-abayon-cv-2026.pdf" download class="btn btn-secondary magnetic">Download Resume</a>
+        </div>
       </div>
     </div>
   </div>
@@ -994,27 +1895,505 @@
   </div>
 </footer>
 
+<script>window.Prism = { manual: true };</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/motion@12.43.0/dist/motion.js"></script>
 <script>
-  // ─── HAMBURGER NAV ───
+  // ─── MOTION HELPERS ───
+  // Everything still works if the Motion CDN fails to load: anim() just jumps to the end state.
+  const M = window.Motion || null;
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const SPRING = { type: 'spring', visualDuration: 0.35, bounce: 0.18 };
+  const EASE_OUT = [0.16, 1, 0.3, 1];
+
+  function applyFinal(target, kf) {
+    const els = target instanceof Element ? [target] : Array.from(target);
+    const last = k => Array.isArray(kf[k]) ? kf[k][kf[k].length - 1] : kf[k];
+    els.forEach(el => {
+      const t = [];
+      if ('x' in kf) t.push(`translateX(${last('x')}px)`);
+      if ('y' in kf) t.push(`translateY(${last('y')}px)`);
+      if ('scale' in kf) t.push(`scale(${last('scale')})`);
+      if (t.length) el.style.transform = t.join(' ');
+      if ('opacity' in kf) el.style.opacity = last('opacity');
+      ['width', 'height'].forEach(k => { if (k in kf) el.style[k] = last(k) + 'px'; });
+    });
+  }
+  function anim(target, kf, opts = {}) {
+    if (!M) { applyFinal(target, kf); return Promise.resolve(); }
+    return M.animate(target, kf, reduceMotion ? { duration: 0 } : opts).finished;
+  }
+  const stagger = (step, o) => (M ? M.stagger(step, o) : 0);
+
+  // ─── HEADER NAV: shared hover pill + active-section indicator ───
   const navToggle = document.getElementById('navToggle');
   const mainNav   = document.getElementById('mainNav');
-  navToggle.addEventListener('click', () => {
-    const open = mainNav.classList.toggle('open');
-    navToggle.classList.toggle('open', open);
-    navToggle.setAttribute('aria-expanded', open);
+  const navPill   = document.getElementById('navPill');
+  const navInd    = document.getElementById('navIndicator');
+  const navLinks  = Array.from(mainNav.querySelectorAll('a'));
+  const mobileMQ  = matchMedia('(max-width: 768px)');
+
+  let pillVisible = false;
+  function movePill(link) {
+    const box = { x: link.offsetLeft, width: link.offsetWidth };
+    navPill.style.top = link.offsetTop + 'px';
+    navPill.style.height = link.offsetHeight + 'px';
+    if (!pillVisible) {
+      // Appear in place (no slide from a stale position), then slide between links.
+      anim(navPill, { ...box, scale: [0.92, 1], opacity: [0, 1] }, { duration: 0.2, ease: EASE_OUT });
+      pillVisible = true;
+    } else {
+      anim(navPill, { ...box, opacity: 1 }, SPRING);
+    }
+  }
+  navLinks.forEach(a => a.addEventListener('mouseenter', () => { if (!mobileMQ.matches) movePill(a); }));
+  mainNav.addEventListener('mouseleave', () => {
+    if (!pillVisible) return;
+    pillVisible = false;
+    anim(navPill, { opacity: 0, scale: 0.92 }, { duration: 0.18 });
   });
-  // Close nav when a link is clicked
-  mainNav.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => {
+
+  let activeLink = null;
+  function setActive(link, instant) {
+    if (link === activeLink && !instant) return;
+    navLinks.forEach(a => a.classList.toggle('active', a === link));
+    if (link) link.setAttribute('aria-current', 'true');
+    if (activeLink && activeLink !== link) activeLink.removeAttribute('aria-current');
+    activeLink = link;
+    if (mobileMQ.matches) return;
+    if (!link) { anim(navInd, { opacity: 0 }, { duration: 0.2 }); return; }
+    const pad = 10;
+    const box = { x: link.offsetLeft + pad, width: link.offsetWidth - pad * 2, opacity: 1 };
+    anim(navInd, box, instant || navInd.style.opacity !== '1' ? { duration: 0 } : SPRING);
+  }
+
+  // Scroll spy. About/Skills and Strengths/Contact sit side by side on desktop,
+  // so a clicked link "pins" until the reader scrolls into a different area.
+  const spyTargets = navLinks.map(a => ({ link: a, el: document.querySelector(a.getAttribute('href')) }))
+                             .filter(t => t.el);
+  let pinned = null;
+  function spy() {
+    const probe = window.innerHeight * 0.35;
+    let best = null;
+    for (const t of spyTargets) {
+      const top = t.el.getBoundingClientRect().top;
+      if (top <= probe && (!best || top > best.top + 1)) best = { ...t, top };
+    }
+    let link = best ? best.link : null;
+    if (pinned && best && Math.abs(pinned.el.getBoundingClientRect().top - best.top) < 2) link = pinned.link;
+    else pinned = null;
+    setActive(link);
+  }
+  navLinks.forEach(a => a.addEventListener('click', () => {
+    pinned = spyTargets.find(t => t.link === a) || null;
+  }));
+
+  // Scroll progress bar
+  const progress = document.getElementById('scrollProgress');
+  function onScroll() {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.transform = `scaleX(${max > 0 ? window.scrollY / max : 0})`;
+    spy();
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', () => { setActive(activeLink, true); onScroll(); });
+  onScroll();
+
+  // ─── MOBILE MENU: panel springs open, links stagger in ───
+  let navOpen = false;
+  function openNav() {
+    navOpen = true;
+    mainNav.classList.add('open');
+    navToggle.classList.add('open');
+    navToggle.setAttribute('aria-expanded', 'true');
+    anim(mainNav, { opacity: [0, 1], y: [-10, 0] }, SPRING);
+    anim(navLinks, { opacity: [0, 1], x: [-14, 0] },
+         { delay: stagger(0.04, { startDelay: 0.04 }), duration: 0.35, ease: EASE_OUT });
+  }
+  function resetNavStyles() {
+    [mainNav, ...navLinks].forEach(el => { el.style.opacity = ''; el.style.transform = ''; });
+  }
+  function closeNav() {
+    if (!navOpen) return;
+    navOpen = false;
+    navToggle.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+    anim(mainNav, { opacity: 0, y: -8 }, { duration: 0.18, ease: 'easeIn' }).then(() => {
+      if (navOpen) return;
       mainNav.classList.remove('open');
-      navToggle.classList.remove('open');
+      resetNavStyles();
+    });
+  }
+  navToggle.addEventListener('click', () => (navOpen ? closeNav() : openNav()));
+  navLinks.forEach(a => a.addEventListener('click', closeNav));
+  document.addEventListener('click', e => {
+    if (!mainNav.contains(e.target) && !navToggle.contains(e.target)) closeNav();
+  });
+  mobileMQ.addEventListener('change', () => {
+    navOpen = false;
+    navToggle.classList.remove('open');
+    mainNav.classList.remove('open');
+    resetNavStyles();
+    setActive(activeLink, true);
+  });
+
+  // ─── EXPERIENCE TIMELINE: line draws with scroll, dots light up as reached ───
+  const xpFill = document.getElementById('xpFill');
+  const xpDots = document.querySelectorAll('.xp-dot');
+  if (M && !reduceMotion) {
+    M.scroll(M.animate(xpFill, { scaleY: [0, 1] }, { ease: 'linear' }),
+             { target: document.getElementById('xpTimeline'), offset: ['start 65%', 'end 55%'] });
+    xpDots.forEach(dot => M.inView(dot, () => {
+      dot.classList.add('lit');
+      M.animate(dot, { scale: [0.5, 1.25, 1] }, { duration: 0.5, ease: EASE_OUT });
+    }, { margin: '0px 0px -40% 0px' }));
+  } else {
+    xpFill.style.transform = 'scaleY(1)';
+    xpDots.forEach(dot => dot.classList.add('lit'));
+  }
+
+  // ─── HERO HEADLINE: word-by-word blur-in ───
+  const heroH1 = document.querySelector('.hero-h1');
+  if (M && !reduceMotion) {
+    const wrap = text => text.split(/(\s+)/).map(part => {
+      if (!part.trim()) return document.createTextNode(part);
+      const s = document.createElement('span'); s.className = 'w'; s.textContent = part; return s;
+    });
+    Array.from(heroH1.childNodes).forEach(node => {
+      if (node.nodeType === 3) node.replaceWith(...wrap(node.textContent));
+      else if (node.tagName === 'EM') {
+        // Keep each gradient line whole so the colour sweep reads as one phrase.
+        Array.from(node.childNodes).forEach(n => {
+          if (n.nodeType !== 3 || !n.textContent.trim()) return;
+          const s = document.createElement('span'); s.className = 'w'; s.textContent = n.textContent.trim();
+          n.replaceWith(s);
+        });
+      }
+    });
+    heroH1.style.animation = 'none';
+    heroH1.style.opacity = '1';
+    M.animate(heroH1.querySelectorAll('.w'),
+      { opacity: [0, 1], y: [28, 0], filter: ['blur(10px)', 'blur(0px)'] },
+      { delay: M.stagger(0.07, { startDelay: 0.3 }), duration: 0.8, ease: EASE_OUT });
+  }
+
+  // ─── COUNT-UP NUMBERS ───
+  document.querySelectorAll('[data-count]').forEach(el => {
+    const target = +el.dataset.count;
+    if (!M || reduceMotion) return;
+    el.textContent = '0';
+    M.inView(el, () => {
+      M.animate(0, target, {
+        duration: 1.8, delay: 1, ease: EASE_OUT,
+        onUpdate: v => { el.textContent = Math.round(v).toLocaleString('en-US'); },
+      });
     });
   });
-  // Close nav on outside click
-  document.addEventListener('click', e => {
-    if (!mainNav.contains(e.target) && !navToggle.contains(e.target)) {
-      mainNav.classList.remove('open');
-      navToggle.classList.remove('open');
+
+  // ─── STAGGERED CONTENT REVEALS ───
+  if (M && !reduceMotion) {
+    const groups = [
+      ['.skills-card', '.chip'],
+      ['.about-card', '.facts > div'],
+      ['.xp-card', '.proj-list li, .stack-tag, .xp-highlight'],
+      ['.project-card', '.proj-list li, .stack-tag'],
+      ['.strengths-card', '.strength-item'],
+      ['.contact-card', '.status-pill, .contact-item'],
+    ];
+    groups.forEach(([parentSel, childSel]) => {
+      document.querySelectorAll(parentSel).forEach(parent => {
+        const kids = parent.querySelectorAll(childSel);
+        if (!kids.length) return;
+        kids.forEach(k => { k.style.opacity = '0'; });
+        M.inView(parent, () => {
+          M.animate(kids, { opacity: [0, 1], y: [14, 0] },
+            { delay: M.stagger(0.035, { startDelay: 0.2 }), duration: 0.55, ease: EASE_OUT });
+        }, { amount: 0.2 });
+      });
+    });
+  }
+
+  // ─── POINTER EFFECTS (mouse/trackpad only) ───
+  const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (finePointer) {
+    // Spotlight glow that follows the cursor across cards
+    document.querySelectorAll('.project-card, .artifact-card, .xp-card, .glass-panel, .about-card, .skills-card, .strengths-card, .contact-card')
+      .forEach(card => {
+        card.classList.add('spot');
+        card.addEventListener('pointermove', e => {
+          const r = card.getBoundingClientRect();
+          card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+          card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+        });
+      });
+
+    // Magnetic buttons: pulled toward the cursor, spring back on leave
+    if (M && !reduceMotion) {
+      const MAG_SPRING = { type: 'spring', stiffness: 260, damping: 18, mass: 0.6 };
+      document.querySelectorAll('.magnetic').forEach(btn => {
+        btn.addEventListener('pointermove', e => {
+          const r = btn.getBoundingClientRect();
+          const dx = (e.clientX - (r.left + r.width / 2)) * 0.25;
+          const dy = (e.clientY - (r.top + r.height / 2)) * 0.35;
+          M.animate(btn, { x: dx, y: dy - 2 }, MAG_SPRING);
+        });
+        btn.addEventListener('pointerleave', () => M.animate(btn, { x: 0, y: 0 }, MAG_SPRING));
+      });
+    }
+  }
+
+  // ─── AUTOMATION SAMPLES: file tabs with a sliding highlight ───
+  const codeTabs  = Array.from(document.querySelectorAll('.code-tab'));
+  const codeTabHl = document.getElementById('codeTabHl');
+  const codeEl    = document.getElementById('codeEl');
+  const codeBody  = document.getElementById('codeBody');
+  const codePath  = document.getElementById('codePath');
+  const codeCopy  = document.getElementById('codeCopy');
+  let codeIndex = -1;
+
+  function placeCodeHl(instant) {
+    const tab = codeTabs[codeIndex];
+    if (!tab) return;
+    const box = { x: tab.offsetLeft, y: tab.offsetTop, width: tab.offsetWidth, height: tab.offsetHeight, opacity: 1 };
+    anim(codeTabHl, box, instant ? { duration: 0 } : { type: 'spring', visualDuration: 0.35, bounce: 0.18 });
+  }
+
+  function renderCode(tab) {
+    const src = document.getElementById(tab.dataset.src).textContent.replace(/^\n/, '');
+    codeEl.className = 'language-' + tab.dataset.lang;
+    codeEl.textContent = src;
+    if (window.Prism && Prism.languages[tab.dataset.lang]) Prism.highlightElement(codeEl);
+    codePath.textContent = tab.dataset.path;
+    codeBody.scrollTop = 0;
+  }
+
+  async function showCode(i, instant) {
+    if (i === codeIndex) return;
+    const first = codeIndex === -1;
+    codeIndex = i;
+    codeTabs.forEach((t, n) => {
+      t.setAttribute('aria-selected', n === i ? 'true' : 'false');
+      t.tabIndex = n === i ? 0 : -1;
+    });
+    placeCodeHl(instant || first);
+    if (first || instant) { renderCode(codeTabs[i]); return; }
+    await anim(codeEl, { opacity: 0, y: 8 }, { duration: 0.12, ease: 'easeIn' });
+    if (codeIndex !== i) return;
+    renderCode(codeTabs[i]);
+    anim(codeEl, { opacity: [0, 1], y: [8, 0] }, { duration: 0.3, ease: EASE_OUT });
+  }
+
+  codeTabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => {
+      showCode(i);
+      tab.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: reduceMotion ? 'auto' : 'smooth' });
+    });
+    tab.addEventListener('keydown', e => {
+      const dir = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
+      if (!dir) return;
+      e.preventDefault();
+      const next = (codeIndex + dir + codeTabs.length) % codeTabs.length;
+      showCode(next);
+      codeTabs[next].focus();
+    });
+  });
+  codeEl.style.display = 'block';
+  showCode(0, true);
+  window.addEventListener('resize', () => placeCodeHl(true));
+  // The section starts hidden by the reveal effect; re-measure once fonts/layout settle.
+  if (document.fonts) document.fonts.ready.then(() => placeCodeHl(true));
+
+  codeCopy.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(codeEl.textContent);
+      codeCopy.textContent = 'Copied ✓';
+    } catch {
+      codeCopy.textContent = 'Press Ctrl+C';
+      getSelection().selectAllChildren(codeEl);
+    }
+    setTimeout(() => { codeCopy.textContent = 'Copy'; }, 1600);
+  });
+
+  // ─── COMMAND PALETTE (⌘K / Ctrl K) ───
+  const cmdk        = document.getElementById('cmdk');
+  const cmdkPanel   = cmdk.querySelector('.cmdk-panel');
+  const cmdkBack    = document.getElementById('cmdkBackdrop');
+  const cmdkInput   = document.getElementById('cmdkInput');
+  const cmdkList    = document.getElementById('cmdkList');
+  const cmdkTrigger = document.getElementById('cmdkTrigger');
+  const isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
+  document.getElementById('cmdkKbd').textContent = isMac ? '⌘ K' : 'Ctrl K';
+
+  const goTo = sel => () => transitionTo(document.querySelector(sel));
+  const openUrl = url => () => window.open(url, '_blank', 'noopener');
+  const download = href => () => {
+    const a = document.createElement('a');
+    a.href = href; a.download = ''; document.body.appendChild(a); a.click(); a.remove();
+  };
+  const COMMANDS = [
+    { group: 'Navigate', icon: '#', label: 'About',     keywords: 'bio intro me',               run: goTo('#about') },
+    { group: 'Navigate', icon: '#', label: 'Skills & Tools', keywords: 'postman swagger jira sql jmeter claude ai agentic', run: goTo('#skills') },
+    { group: 'Navigate', icon: '#', label: 'Experience', keywords: 'career jobs legadel sprout history education freelance', run: goTo('#experience') },
+    { group: 'Navigate', icon: '#', label: 'Automation Samples', keywords: 'code scripts csharp dotnet nunit restsharp api tests ci', run: goTo('#automation') },
+    { group: 'Navigate', icon: '#', label: 'Projects',  keywords: 'work payroll attendance',    run: goTo('#projects') },
+    { group: 'Navigate', icon: '#', label: 'Test Artifacts', keywords: 'samples proof',         run: goTo('#artifacts') },
+    { group: 'Navigate', icon: '#', label: 'Strengths', keywords: 'value',                      run: goTo('#strengths') },
+    { group: 'Navigate', icon: '#', label: 'Contact',   keywords: 'hire email reach',           run: goTo('#contact') },
+    { group: 'Actions',  icon: '↓', label: 'Download resume', hint: 'PDF', keywords: 'cv',       run: download('jefrey-abayon-cv-2026.pdf') },
+    { group: 'Actions',  icon: '✓', label: 'View ISTQB CTFL certificate', keywords: 'cert',     run: openUrl('ctfl-certificate.jpg') },
+    { group: 'Actions',  icon: '@', label: 'Send an email', hint: 'Mail', keywords: 'contact',  run: () => { location.href = 'mailto:jeffreyabayon@gmail.com'; } },
+    { group: 'Actions',  icon: 'in', label: 'Open LinkedIn profile', hint: '↗', keywords: 'social', run: openUrl('https://www.linkedin.com/in/jefrey-abayon-ctfl-302aa6289/') },
+    { group: 'Samples',  icon: '↗', label: 'Test case samples', keywords: 'bdd gherkin artifact', run: openUrl('https://docs.google.com/document/d/1GHYdI88tO2lQXFScSD7vrXwUIK7B2YWsHseUVo1lE0I/edit?usp=sharing') },
+    { group: 'Samples',  icon: '↗', label: 'Bug report samples', keywords: 'defect artifact',   run: openUrl('https://docs.google.com/document/d/13VQz5WMP4pR-DdcQAgr50GTOrYT1Zl1w_qNUCM5BpKs/edit?usp=sharing') },
+    { group: 'Samples',  icon: '↗', label: 'API validation samples', keywords: 'postman artifact', run: openUrl('https://docs.google.com/document/d/13sbyLwE4eh59R5SIpjAvEXZjKrQ70ZEcp0zO1b95Leg/edit?usp=sharing') },
+    { group: 'Samples',  icon: '↗', label: 'SQL verification samples', keywords: 'database artifact', run: openUrl('https://docs.google.com/document/d/1KFFanUWTpdIHrVLIJVHjUAnuGMEeWzbX_fwphKGjMoc/edit?usp=sharing') },
+  ];
+
+  // Subsequence fuzzy match; rewards consecutive hits and word starts.
+  function fuzzy(query, text) {
+    const t = text.toLowerCase();
+    let from = 0, prev = -2, score = 0;
+    const idx = [];
+    for (const ch of query) {
+      const f = t.indexOf(ch, from);
+      if (f < 0) return null;
+      score += (f === prev + 1 ? 5 : 1) + (f === 0 || t[f - 1] === ' ' ? 3 : 0);
+      idx.push(f); prev = f; from = f + 1;
+    }
+    return { score: score - t.length * 0.01, idx };
+  }
+
+  let results = [];
+  let sel = 0;
+  const highlight = document.createElement('li');
+  highlight.className = 'cmdk-highlight';
+  highlight.setAttribute('aria-hidden', 'true');
+
+  function labelNode(label, idx) {
+    const span = document.createElement('span');
+    span.className = 'label';
+    const hits = new Set(idx);
+    let buf = '';
+    const flush = () => { if (buf) { span.append(buf); buf = ''; } };
+    [...label].forEach((ch, i) => {
+      if (hits.has(i)) { flush(); const m = document.createElement('mark'); m.textContent = ch; span.append(m); }
+      else buf += ch;
+    });
+    flush();
+    return span;
+  }
+
+  function render() {
+    const q = cmdkInput.value.trim().toLowerCase().replace(/\s+/g, '');
+    if (!q) {
+      results = COMMANDS.map(c => ({ c, idx: [] }));
+    } else {
+      results = COMMANDS.map(c => {
+        const m = fuzzy(q, c.label);
+        const k = fuzzy(q, c.keywords || '');
+        if (m) return { c, idx: m.idx, score: m.score + 2 };
+        if (k) return { c, idx: [], score: k.score };
+        return null;
+      }).filter(Boolean).sort((a, b) => b.score - a.score);
+    }
+    cmdkList.replaceChildren(highlight);
+    if (!results.length) {
+      const li = document.createElement('li');
+      li.className = 'cmdk-empty';
+      li.textContent = `No results for “${cmdkInput.value.trim()}”`;
+      cmdkList.append(li);
+    }
+    let lastGroup = null;
+    results.forEach((r, i) => {
+      const group = q ? 'Results' : r.c.group;
+      if (group !== lastGroup) {
+        const g = document.createElement('li');
+        g.className = 'cmdk-group'; g.setAttribute('role', 'presentation');
+        g.textContent = group;
+        cmdkList.append(g);
+        lastGroup = group;
+      }
+      const li = document.createElement('li');
+      li.className = 'cmdk-item'; li.id = 'cmdk-opt-' + i;
+      li.setAttribute('role', 'option');
+      const ico = document.createElement('span'); ico.className = 'ico'; ico.textContent = r.c.icon;
+      li.append(ico, labelNode(r.c.label, r.idx));
+      if (r.c.hint) { const h = document.createElement('span'); h.className = 'hint'; h.textContent = r.c.hint; li.append(h); }
+      li.addEventListener('mousemove', () => { if (sel !== i) select(i); });
+      li.addEventListener('click', () => execute(i));
+      cmdkList.append(li);
+    });
+    select(0, true);
+  }
+
+  // One shared highlight element springs between options (the "layout" highlight).
+  function select(i, instant) {
+    const items = cmdkList.querySelectorAll('.cmdk-item');
+    if (!items.length) { anim(highlight, { opacity: 0 }, { duration: 0.1 }); cmdkInput.removeAttribute('aria-activedescendant'); return; }
+    sel = (i + items.length) % items.length;
+    items.forEach((el, n) => el.setAttribute('aria-selected', n === sel ? 'true' : 'false'));
+    const el = items[sel];
+    cmdkInput.setAttribute('aria-activedescendant', el.id);
+    const box = { y: el.offsetTop, height: el.offsetHeight, opacity: 1 };
+    anim(highlight, box, instant ? { duration: 0 } : { type: 'spring', visualDuration: 0.25, bounce: 0.15 });
+    el.scrollIntoView({ block: 'nearest' });
+  }
+
+  function execute(i) {
+    const r = results[i];
+    if (!r) return;
+    closePalette().then(r.c.run);
+  }
+
+  let paletteOpen = false;
+  let lastFocus = null;
+  function openPalette() {
+    if (paletteOpen) return;
+    paletteOpen = true;
+    closeNav();
+    lastFocus = document.activeElement;
+    cmdkInput.value = '';
+    cmdk.hidden = false;
+    document.body.style.overflow = 'hidden';
+    render();
+    cmdkInput.focus();
+    anim(cmdkBack, { opacity: [0, 1] }, { duration: 0.2 });
+    anim(cmdkPanel, { opacity: [0, 1], scale: [0.96, 1], y: [-12, 0] }, { type: 'spring', visualDuration: 0.3, bounce: 0.22 });
+    anim(cmdkList.querySelectorAll('.cmdk-group, .cmdk-item'), { opacity: [0, 1], y: [6, 0] },
+         { delay: stagger(0.018, { startDelay: 0.05 }), duration: 0.28, ease: EASE_OUT });
+  }
+  function closePalette() {
+    if (!paletteOpen) return Promise.resolve();
+    paletteOpen = false;
+    document.body.style.overflow = '';
+    return Promise.all([
+      anim(cmdkBack, { opacity: 0 }, { duration: 0.15 }),
+      anim(cmdkPanel, { opacity: 0, scale: 0.97, y: -6 }, { duration: 0.15, ease: 'easeIn' }),
+    ]).then(() => {
+      if (paletteOpen) return;
+      cmdk.hidden = true;
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    });
+  }
+
+  cmdkTrigger.addEventListener('click', openPalette);
+  cmdkBack.addEventListener('click', closePalette);
+  cmdkInput.addEventListener('input', render);
+  cmdkInput.addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown') { e.preventDefault(); select(sel + 1); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); select(sel - 1); }
+    else if (e.key === 'Enter') { e.preventDefault(); execute(sel); }
+    else if (e.key === 'Tab') { e.preventDefault(); select(sel + (e.shiftKey ? -1 : 1)); }
+  });
+  document.addEventListener('keydown', e => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      paletteOpen ? closePalette() : openPalette();
+    } else if (e.key === 'Escape') {
+      if (paletteOpen) closePalette(); else closeNav();
     }
   });
 
@@ -1062,11 +2441,65 @@
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => observer.observe(el));
 
-  // ─── SMOOTH ANCHOR SCROLL ───
+  // ─── PAGE TRANSITIONS (curtain wipe between sections) ───
+  // Cover the screen from below, jump to the section while hidden, then wipe away upward.
+  const curtain      = document.getElementById('curtain');
+  const curtainLayers = curtain.querySelectorAll('.curtain-layer');
+  const curtainLabel = curtain.querySelector('.curtain-label');
+  const SECTION_NAMES = {
+    hero: 'Home', about: 'About', skills: 'Skills & Tools', experience: 'Experience',
+    automation: 'Automation', projects: 'Projects', artifacts: 'Test Artifacts', strengths: 'Strengths', contact: 'Contact',
+  };
+  const SECTION_ORDER = Object.keys(SECTION_NAMES);
+  const WIPE = [0.76, 0, 0.24, 1];
+  let transitioning = false;
+
+  function jumpTo(target) {
+    const root = document.documentElement;
+    root.style.scrollBehavior = 'auto';
+    if (target.id === 'hero') window.scrollTo(0, 0); else target.scrollIntoView();
+    root.style.scrollBehavior = '';
+  }
+
+  async function transitionTo(target) {
+    if (!target) return;
+    if (!M || reduceMotion) { jumpTo(target); return; }
+    if (transitioning) return;
+    transitioning = true;
+    const id = target.id in SECTION_NAMES ? target.id : 'hero';
+    document.getElementById('curtainNum').textContent = String(SECTION_ORDER.indexOf(id) + 1).padStart(2, '0');
+    document.getElementById('curtainTitle').textContent = SECTION_NAMES[id];
+    curtain.classList.add('on');
+
+    // In: accent layer leads, dark layer follows
+    await Promise.all(Array.from(curtainLayers).map((layer, i) =>
+      M.animate(layer, { clipPath: ['inset(100% 0% 0% 0%)', 'inset(0% 0% 0% 0%)'] },
+                { duration: 0.55, delay: i * 0.08, ease: WIPE }).finished));
+    await M.animate(curtainLabel, { opacity: [0, 1], y: [24, 0] }, { duration: 0.3, ease: EASE_OUT }).finished;
+
+    jumpTo(target);
+    await new Promise(r => setTimeout(r, 120));
+
+    // Out: label lifts, dark layer leaves first so the accent edge trails behind
+    M.animate(curtainLabel, { opacity: 0, y: -24 }, { duration: 0.25, ease: 'easeIn' });
+    await Promise.all(Array.from(curtainLayers).reverse().map((layer, i) =>
+      M.animate(layer, { clipPath: ['inset(0% 0% 0% 0%)', 'inset(0% 0% 100% 0%)'] },
+                { duration: 0.55, delay: 0.1 + i * 0.08, ease: WIPE }).finished));
+
+    curtain.classList.remove('on');
+    transitioning = false;
+  }
+
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
-      const target = document.querySelector(a.getAttribute('href'));
-      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+      const href = a.getAttribute('href');
+      if (href === '#') {
+        e.preventDefault();
+        if (a.classList.contains('brand')) transitionTo(document.getElementById('hero'));
+        return;
+      }
+      const target = document.querySelector(href);
+      if (target) { e.preventDefault(); transitionTo(target); }
     });
   });
 </script>
