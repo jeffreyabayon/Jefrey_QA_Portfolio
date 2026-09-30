@@ -595,7 +595,8 @@
       font: 500 0.76rem var(--mono); color: var(--muted);
     }
     .code-run .ok { color: #a9b89a; font-weight: 700; }
-    .code-note { margin-top: 1rem; font-size: 0.8rem; color: var(--muted); }
+    .code-note { margin-top: 1rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.8rem; font-size: 0.8rem; color: var(--muted); }
+    .ci-badge { display: inline-flex; }
     .code-note a { color: var(--accent); }
 
     /* Syntax colours (Prism tokens) tuned to the site palette */
@@ -1449,7 +1450,14 @@
             <span>· live run against Restful-Booker</span>
           </div>
         </div>
-        <p class="code-note">Practice API: <a href="https://restful-booker.herokuapp.com/apidoc/index.html" target="_blank" rel="noopener">Restful-Booker docs ↗</a></p>
+        <div class="code-note">
+          <a href="https://github.com/jeffreyabayon/api-automation-samples/actions/workflows/api-tests.yml" target="_blank" rel="noopener" class="ci-badge">
+            <img src="https://github.com/jeffreyabayon/api-automation-samples/actions/workflows/api-tests.yml/badge.svg" alt="API Tests status" height="20" />
+          </a>
+          <a href="https://github.com/jeffreyabayon/api-automation-samples" target="_blank" rel="noopener">Full source &amp; CI on GitHub ↗</a>
+          <span>·</span>
+          <a href="https://restful-booker.herokuapp.com/apidoc/index.html" target="_blank" rel="noopener">Restful-Booker docs ↗</a>
+        </div>
       </div>
     </div>
   </div>
@@ -1703,10 +1711,10 @@ jobs:
           dotnet-version: '10.0.x'
 
       - name: Smoke tests (fail fast)
-        run: dotnet test --filter "Category=Smoke" --logger "trx;LogFileName=smoke.trx"
+        run: dotnet test BookingApi.Tests --filter "Category=Smoke" --logger "trx;LogFileName=smoke.trx"
 
       - name: Full regression
-        run: dotnet test --filter "Category=Regression" --logger "trx;LogFileName=regression.trx"
+        run: dotnet test BookingApi.Tests --filter "Category=Regression" --logger "trx;LogFileName=regression.trx"
 
       - name: Upload test results
         if: always()
